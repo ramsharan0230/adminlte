@@ -25,4 +25,8 @@ class PagesController extends Controller
     public function inspect1(){
         return view('inspection.list1');
     }
+
+    public function hygienes(){
+        return view('hygienes.list');
+    }
 }

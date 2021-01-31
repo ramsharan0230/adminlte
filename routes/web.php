@@ -24,6 +24,8 @@ Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
 Route::get('/inspects', 'PagesController@inspects')->name('inspects');
 Route::get('/inspects/add', 'PagesController@addInspection')->name('inspects.add');
 Route::get('/inspects/list', 'PagesController@inspect1')->name('inspects.list');
+Route::get('/hygienes/list', 'PagesController@hygienes')->name('hygienes.list');
+
 
 Route::get('/forgot-password', function(){
     return "hlsdf";
