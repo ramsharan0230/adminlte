@@ -11,7 +11,6 @@
 |
 */
 
-Route::prefix('hygiene')->middleware('hygiene')->group(function() {
-    Route::get('/', 'HygieneController@index')->name('hygiene');
-    Route::get('/create', 'HygieneController@create')->name('hygiene.create');
+Route::prefix('inspection')->group(function() {
+    Route::get('/', 'InspectionController@index');
 });
