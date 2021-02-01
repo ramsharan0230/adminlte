@@ -1,0 +1,13 @@
+{
+    "name": "Hygiene",
+    "alias": "hygiene",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Hygiene\\Providers\\HygieneServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
