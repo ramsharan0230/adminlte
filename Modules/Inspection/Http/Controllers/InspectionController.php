@@ -5,6 +5,9 @@ namespace Modules\Inspection\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Validator;
+use Auth;
+use Modules\Inspection\Entities\Inspection;
 
 class InspectionController extends Controller
 {
@@ -14,7 +17,8 @@ class InspectionController extends Controller
      */
     public function index()
     {
-        return view('inspection::index');
+        $inspections = Inspection::whereStatus(1)->where('user_id', Auth::id())->get();
+        return view('inspection::index', compact('inspections'));
     }
 
     /**
@@ -33,9 +37,59 @@ class InspectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Validator::make($request->all(), [
+            'location'=> 'required|max:199',
+            'findings'=> 'required|max:2500',
+            'pca'=> 'required|max:2500',
+            'accountibility'=> 'required',
+            'start_date'=> 'required',
+            'closing_date'=> 'required'
+         ]);
+        
+        $data = $request->all();
+        $data['status'] = $request->publish?1:0;
+        $data['user_id'] = Auth::id();
+
+        $inspection = Inspection::create($data);
+        if($inspection)
+            return redirect()->route('inspection')->with(['success'=>"Inspection created Successfully"]);
+        else
+            return redirect()->route('inspection')->with(['danger'=>"Sorry something went wrong!"]);
+
     }
 
+    public function addPicture(){
+        return view('inspection::showCam');
+    }
+
+
+    public function storePicture(Request $request){
+        // return "one";
+        return dd($request->all());
+        $request->validate([
+            'picture' => 'required|min:1000',
+            'id' => 'required'
+        ]);
+        $data = $request->all();
+
+        if($request->picture){
+            $image = $request->picture; 
+            $image = str_replace('data:image/jpeg;base64,', '', $image);
+            $image = str_replace(' ', '+', $image);
+            $imageName = Str::random(10).'.'.'jpeg';
+            \File::put(public_path('images/inspection_files'). '/' . $imageName, base64_decode($image));
+        }
+        $data['picture'] = $imageName;
+        $id = $request->id;
+
+        $picture = new Picture();
+        $picture->name = $imageName;
+        $picture->inspection_id = $id;
+        $picture->save();
+
+        if($picture)
+            return response()->json(['message' => 'Successfully updated Picture', 'status' => 200]);
+    }
     /**
      * Show the specified resource.
      * @param int $id

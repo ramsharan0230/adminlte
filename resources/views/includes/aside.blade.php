@@ -43,14 +43,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('inspects') }}" class="nav-link">
+                <a href="{{ route('inspection') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lists</p>
                 </a>
 
-                <a href="{{ route('inspects.add') }}" class="nav-link">
+                <a href="{{ route('inspection.create') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add</p>
+                  <p>Create</p>
                 </a>
 
               </li>

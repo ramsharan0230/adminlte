@@ -8,11 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Inspection extends Model
 {
     use HasFactory;
-
-    protected $fillable = [];
+    protected $table = 'inspections';
+    protected $fillable = ['location','start_date','findings', 'pca', 'accountibility', 'closing_date', 'user_id', 'approvedBy_hygiene', 'approvedBy_siteman', 'approvedBy_opman', 'approvedBy_sropman', 'status'];
     
-    protected static function newFactory()
-    {
-        return \Modules\Inspection\Database\factories\InspectionFactory::new();
-    }
 }

@@ -1,0 +1,50 @@
+div.finding_suggestions {
+    overflow-y:scroll; 
+    overflow-x:hidden; 
+    height:300px; 
+    border: 2px solid gray; 
+    border-radius: 5px;
+  }
+
+  div.pca_suggestions {
+    overflow-y:scroll; 
+    overflow-x:hidden; 
+    height:300px; 
+    border: 2px solid gray; 
+    border-radius: 5px;
+  }
+
+  ul.suggestions {
+    list-style-type: none;
+    margin-left: -22px;
+  }
+
+  ul.pca_suggestionAll{
+      list-style-type: none;
+      margin-left: -22px;
+  }
+  .pca_suggestions li{
+    cursor: pointer;
+    margin-bottom: 0px;
+  }
+
+  .suggestions li{
+    cursor: pointer;
+    margin-bottom: 0px;
+  }
+  
+  .li_pca_suggestions {
+    border: 1px solid gray; 
+    border-radius: 2px; 
+    margin-left: -15px;
+    margin-top: 5px;
+    font-size: 12px
+  }
+
+  .li_suggestions {
+    border: 1px solid gray; 
+    border-radius: 2px; 
+    margin-left: -15px;
+    margin-top: 5px;
+    font-size: 12px
+  }

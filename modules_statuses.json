@@ -2,5 +2,6 @@
     "Role": true,
     "User": true,
     "Hygiene": true,
-    "Inspection": true
+    "Inspection": true,
+    "Picture": true
 }

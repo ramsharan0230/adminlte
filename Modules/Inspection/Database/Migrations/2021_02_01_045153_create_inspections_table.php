@@ -18,7 +18,6 @@ class CreateInspectionsTable extends Migration
             $table->string('location')->nullable();
             $table->string('start_date')->nullable();
             $table->text('findings', 10000)->nullable();
-            $table->string('picture')->nullable();
             $table->text('pca', 10000)->nullable();
             $table->string('accountibility')->nullable();
             $table->string('closing_date')->nullable();
@@ -29,7 +28,6 @@ class CreateInspectionsTable extends Migration
             $table->boolean('approvedBy_siteman', 0, 1)->default(0);
             $table->boolean('approvedBy_opman', 0, 1)->default(0);
             $table->boolean('approvedBy_sropman', 0, 1)->default(0);
-
             $table->timestamps();
         });
     }
