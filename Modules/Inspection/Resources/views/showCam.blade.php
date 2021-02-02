@@ -9,7 +9,7 @@
         <div class="card-body">
             <form class="form" method="POST" action="#">
                 <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                {{-- <input type="hidden" name="inspection_id" value="{{ $id }}" id="inspection_id"> --}}
+                <input type="hidden" name="inspection_id" value="{{ \Request::get('inspection_id') }}" id="inspection_id">
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12">
                     <div id="vid_container">

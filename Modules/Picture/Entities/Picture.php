@@ -4,7 +4,7 @@ namespace Modules\Picture\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Modules\Inspection\Entities\Inspection;
 
 class Picture extends Model
 {
@@ -13,7 +13,7 @@ class Picture extends Model
     protected $table = 'pictures';
     protected $fillable = ['name', 'inspection_id', 'status'];
 
-    // public function inspection(){
-    //     return $this->belongsTo(Inspection::class);
-    // }
+    public function inspection(){
+        return $this->belongsTo(Inspection::class);
+    }
 }

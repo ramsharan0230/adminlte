@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller;
 use Validator;
 use Auth;
 use Modules\Inspection\Entities\Inspection;
+use Modules\Picture\Entities\Picture;
+use Illuminate\Support\Str;
 
 class InspectionController extends Controller
 {
@@ -65,7 +67,7 @@ class InspectionController extends Controller
 
     public function storePicture(Request $request){
         // return "one";
-        return dd($request->all());
+        // return dd($request->all());
         $request->validate([
             'picture' => 'required|min:1000',
             'id' => 'required'
@@ -77,7 +79,7 @@ class InspectionController extends Controller
             $image = str_replace('data:image/jpeg;base64,', '', $image);
             $image = str_replace(' ', '+', $image);
             $imageName = Str::random(10).'.'.'jpeg';
-            \File::put(public_path('images/inspection_files'). '/' . $imageName, base64_decode($image));
+            \File::put(public_path('images/inspection_file/pictures'). '/' . $imageName, base64_decode($image));
         }
         $data['picture'] = $imageName;
         $id = $request->id;
@@ -90,11 +92,12 @@ class InspectionController extends Controller
         if($picture)
             return response()->json(['message' => 'Successfully updated Picture', 'status' => 200]);
     }
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
+
+    public function getSliderImages($id){
+        $data = Picture::where('inspection_id', $id)->get();
+        
+        return response()->json(['data' => $data, 'state' => 200]);
+    }
     public function show($id)
     {
         return view('inspection::show');
