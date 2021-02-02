@@ -56,8 +56,11 @@
                     <td>{{ $inspection->start_date }}</td>
                     <td>{{ $inspection->findings }}</td>
                     <td>
+                      <?php 
+                          $image = count($inspection->pictures)>0?$inspection->pictures[0]->name:"photo1.png";
+                        ?>
                         <button type="button" class="btn btn-default slider" data-toggle="modal" data-target="#modal-default" data-id="{{ $inspection->id }}">
-                          <img src="{{ asset('dist/img/photo1.png') }}" width="100" alt="">
+                          <img src="{{ asset('images/inspection_file/pictures').'/'.$image }}" width="100" alt="">
                         </button>
                     </td>
                     <td>{{ $inspection->pca }}</td>
@@ -105,19 +108,8 @@
               <div class="modal-body">
                 <input type="hidden" id="inspection" name="inspection_id">
                   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                      <ol class="carousel-indicators">
-                        {{-- <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> --}}
-                      </ol>
-                      <div class="carousel-inner">
-                        {{-- <div class="carousel-item active">
-                          <img class="d-block w-100" src="{{ asset('dist/img/photo1.png') }}" alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                          <img class="d-block w-100" src="{{ asset('dist/img/photo2.png') }}" alt="Second slide">
-                        </div> --}}
-                      </div>
+                      <ol class="carousel-indicators"></ol>
+                      <div class="carousel-inner"> </div>
                       <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
