@@ -33,14 +33,17 @@ class HomeController extends Controller
             return redirect()->route('hygiene');
         }
 
-        $destinations = [
-            1 => 'hygiene',
-            2 => 'site-manager',
-            3 => 'operation-manager',
-            4 => 'senior-operation-manager'
-        ];
+        if (Auth::user()->role->slug == 'site-manager') {
+            return redirect()->route('sitemanager');
+        }
 
-        return redirect(route($destinations[Auth()::user()->role->slug]));
+        if (Auth::user()->role->slug == 'operation-manager') {
+            return redirect()->route('operationmanager');
+        }
+
+        if (Auth::user()->role->slug == 'senior-operation-manager') {
+            return redirect()->route('senioroperationmanager');
+        }
 
         return view('home');
     }

@@ -1,0 +1,13 @@
+{
+    "name": "SeniorOperationManager",
+    "alias": "senioroperationmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SeniorOperationManager\\Providers\\SeniorOperationManagerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

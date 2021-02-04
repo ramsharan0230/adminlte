@@ -3,5 +3,8 @@
     "User": true,
     "Hygiene": true,
     "Inspection": true,
-    "Picture": true
+    "Picture": true,
+    "SiteManager": true,
+    "OperationManager": true,
+    "SeniorOperationManager": true
 }

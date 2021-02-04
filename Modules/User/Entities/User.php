@@ -13,5 +13,9 @@ class User extends Model
     public function role(){
         return $this->belongsTo('Modules\Role\Entities\Role');
     }
+
+    public function operationManagers(){
+        return $this->where('role_id', 3)->where('status', 1)->get();
+    }
     
 }

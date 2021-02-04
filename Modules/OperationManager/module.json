@@ -1,0 +1,13 @@
+{
+    "name": "OperationManager",
+    "alias": "operationmanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OperationManager\\Providers\\OperationManagerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

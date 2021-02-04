@@ -56,24 +56,18 @@
               </li>
             </ul>
           </li>
-
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Hygienes
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('hygiene') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lists</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+          @if(\Auth::user()->role->slug =='hygiene' || \Auth::user()->role->slug =='senior-operation-manager')
+          @include('includes.hygienes')
+          @endif
+          @if(\Auth::user()->role->slug =='site-manager' || \Auth::user()->role->slug =='senior-operation-manager')
+          @include('includes.site-managers')
+          @endif
+          @if(\Auth::user()->role->slug =='operation-manager' || \Auth::user()->role->slug =='senior-operation-manager')
+          @include('includes.operation-managers')
+          @endif
+          @if(\Auth::user()->role->slug =='senior-operation-manager')
+          @include('includes.senior-operation-managers')
+          @endif
           
           <li class="nav-header"><strong>Reports</strong> </li>
           <li class="nav-item has-treeview">
