@@ -23,46 +23,50 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
-                <i class="right fas fa-ansgle-left"></i>
-              </p>
-            </a>
-          </li>
+            @if(\Auth::user()->role->slug =='senior-operation-manager')
+              @include('includes.dashboard.senior-operation-manager')
+            @endif
+            
+            @if(\Auth::user()->role->slug =='operation-manager')
+              @include('includes.dashboard.operation-manager')
+            @endif
+
+            @if(\Auth::user()->role->slug =='site-manager')
+              @include('includes.dashboard.site-manager')
+            @endif
+
+            @if(\Auth::user()->role->slug =='hygiene')
+              @include('includes.dashboard.hygiene')
+            @endif
+{{-- inspection list --}}
           
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Inspections
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ route('inspection') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lists</p>
-                </a>
+            @if(\Auth::user()->role->slug =='senior-operation-manager')
+              @include('includes.inspections.senior-operation-manager-inspection')
+            @endif
+            
+            @if(\Auth::user()->role->slug =='operation-manager')
+              @include('includes.inspections.operation-manager-inspection')
+            @endif
 
-                <a href="{{ route('inspection.create') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Create</p>
-                </a>
+            @if(\Auth::user()->role->slug =='site-manager')
+              @include('includes.inspections.site-manager-inspection')
+            @endif
 
-              </li>
-            </ul>
-          </li>
-          @if(\Auth::user()->role->slug =='hygiene' || \Auth::user()->role->slug =='senior-operation-manager')
+            @if(\Auth::user()->role->slug =='hygiene')
+              @include('includes.inspections.hygiene-inspection')
+            @endif
+{{-- inspection list end --}}
+
+            
+
+
+          @if(\Auth::user()->role->slug =='hygiene')
           @include('includes.hygienes')
           @endif
-          @if(\Auth::user()->role->slug =='site-manager' || \Auth::user()->role->slug =='senior-operation-manager')
+          @if(\Auth::user()->role->slug =='site-manager')
           @include('includes.site-managers')
           @endif
-          @if(\Auth::user()->role->slug =='operation-manager' || \Auth::user()->role->slug =='senior-operation-manager')
+          @if(\Auth::user()->role->slug =='operation-manager')
           @include('includes.operation-managers')
           @endif
           @if(\Auth::user()->role->slug =='senior-operation-manager')

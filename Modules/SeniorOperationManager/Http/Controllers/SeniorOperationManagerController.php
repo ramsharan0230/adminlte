@@ -6,17 +6,36 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
+use Modules\Inspection\Entities\Inspection;
 
 class SeniorOperationManagerController extends Controller
 {
+    private $seniorOperationManagers;
+    private $operationManagers;
+    private $siteManagers;
+    private $hygienes;
+    private $inspections;
+
+    public function __construct(User $user, Inspection $inspection)
+    {
+        $this->middleware('auth');
+        //users
+        $this->seniorOperationManagers = $user->srOperationManagers();
+        $this->operationManagers = $user->operationManagers();
+        $this->siteManagers = $user->siteManagers();
+        $this->hygienes = $user->hygienes();
+
+        //inspection
+        $this->inspections = $inspection->seniorOperationManagerInspections();
+    }
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
-        $users = User::whereStatus(1)->get();
-        return view('senioroperationmanager::index', compact('users'));
+        $inspections = $this->inspections;
+        return view('senioroperationmanager::index', compact('inspections'));
     }
 
     /**
@@ -78,4 +97,25 @@ class SeniorOperationManagerController extends Controller
     {
         //
     }
+
+    public function seniorOperationManagers(){
+        $seniorOperationManagers = $this->seniorOperationManagers;
+        return view('senioroperationmanager::senior_operation_managers', compact('seniorOperationManagers'));
+    }
+
+    public function operationManagers(){
+        $operationManagers = $this->operationManagers;
+        return view('senioroperationmanager::operation-manager', compact('operationManagers'));
+    }
+
+    public function siteManagers(){
+        $siteManagers = $this->siteManagers;
+        return view('senioroperationmanager::operation-manager', compact('siteManagers'));
+    }
+
+    public function hygienes(){
+        $hygienes = $this->hygienes;
+        return view('senioroperationmanager::operation-manager', compact('hygienes'));
+    }
+    
 }

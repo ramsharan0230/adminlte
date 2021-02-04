@@ -10,13 +10,22 @@ use Modules\User\Entities\User;
 
 class HygieneController extends Controller
 {
+
+    private $hygienes;
+
+    public function __construct(User $user)
+    {
+        $this->middleware('auth');
+        $this->hygienes = $user->hygienes();
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
-        $users = User::whereStatus(1)->get();
+        $users = $this->hygienes;
         return view('hygiene::index', compact('users'));
     }
 

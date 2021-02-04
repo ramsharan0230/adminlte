@@ -56,6 +56,42 @@
 
 <!-- PAGE SCRIPTS -->
 <script src="{{ asset('dist/js/pages/dashboard2.js') }}"></script>
+<script>
+    $('.slider').click(function(){
+          $('#inspection').val($(this).data('id'))
+
+          $.ajax({
+            url: '/inspection/picture/slider/'+$(this).data('id'),
+            type: "GET",
+            dataType: 'json',
+            success: function (data) {
+              $('.carousel-indicators').empty();
+              $('.carousel-inner').empty();
+              for(var i=0; i<data.data.length; i++){
+                if(i ==0)
+                  $('.carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to="+i+" class='active'></li>")
+                else
+                  $('.carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to="+i+"></li>")
+              }
+
+              $.each(data.data, function(index, item) {
+                  //now you can access properties using dot notation
+                  if(index ==0)
+                    $('.carousel-inner').append("<div class='carousel-item active'><img class='d-block w-100' src='images/inspection_file/pictures/"+item['name']+"' ></div>")
+                  else 
+                   $('.carousel-inner').append("<div class='carousel-item'><img class='d-block w-100' src='images/inspection_file/pictures/"+item['name']+"' ></div>")
+
+              });
+                // if(data.data.status == 200){
+                //   // window.location.href=redirectUrl;
+                // }
+              },
+              error: function(error){
+                console.log(error)
+              }
+            })
+        })
+</script>
 </body>
 @stack('scripts')
 <!-- Mirrored from adminlte.io/themes/dev/AdminLTE/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 30 Jan 2021 08:54:56 GMT -->

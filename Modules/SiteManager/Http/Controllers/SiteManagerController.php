@@ -6,9 +6,18 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Inspection\Entities\Inspection;
+use Modules\User\Entities\User;
 
 class SiteManagerController extends Controller
 {
+
+    private $sitemanagers;
+
+    public function __construct(User $user)
+    {
+        $this->middleware('auth');
+        $this->sitemanagers = $user->siteManagers();
+    }
     /**
      * Display a listing of the resource.
      * @return Renderable
@@ -77,5 +86,10 @@ class SiteManagerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function siteManagers(){
+        $users = $this->sitemanagers;
+        return view('sitemanager::users' ,compact('users'));
     }
 }

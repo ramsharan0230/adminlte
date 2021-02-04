@@ -13,4 +13,5 @@
 
 Route::prefix('sitemanager')->middleware(['siteManger'])->group(function() {
     Route::get('/', 'SiteManagerController@index')->name('sitemanager');
+    Route::get('/users', 'SiteManagerController@siteManagers')->name('sitemanager.users');
 });
