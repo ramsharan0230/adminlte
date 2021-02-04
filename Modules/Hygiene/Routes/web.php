@@ -16,4 +16,5 @@ Route::prefix('hygiene')->middleware('hygiene')->group(function() {
     Route::get('/create', 'HygieneController@create')->name('hygiene.create');
     Route::post('/inspection/store', 'HygieneController@store')->name('inspection.store');
     Route::get('/list', 'HygieneController@index')->name('hygiene.list');
+    Route::get('/users', 'HygieneController@users')->name('hygiene.users');
 });

@@ -29,7 +29,6 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Inspection Lists</h3>
-              <a href="{{ route('inspection.create') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i>  Add</a>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -121,7 +120,6 @@
                   </div>
               </div>
               <div class="modal-footer justify-content-between">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add Picture</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               </div>
             </form>
@@ -148,41 +146,6 @@
               "autoWidth": false,
             });
         });
-
-        $('.slider').click(function(){
-          $('#inspection').val($(this).data('id'))
-
-          $.ajax({
-            url: '/inspection/picture/slider/'+$(this).data('id'),
-            type: "GET",
-            dataType: 'json',
-            success: function (data) {
-              $('.carousel-indicators').empty();
-              $('.carousel-inner').empty();
-              for(var i=0; i<data.data.length; i++){
-                if(i ==0)
-                  $('.carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to="+i+" class='active'></li>")
-                else
-                  $('.carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to="+i+"></li>")
-              }
-
-              $.each(data.data, function(index, item) {
-                  //now you can access properties using dot notation
-                  if(index ==0)
-                    $('.carousel-inner').append("<div class='carousel-item active'><img class='d-block w-100' src='images/inspection_file/pictures/"+item['name']+"' ></div>")
-                  else 
-                   $('.carousel-inner').append("<div class='carousel-item'><img class='d-block w-100' src='images/inspection_file/pictures/"+item['name']+"' ></div>")
-
-              });
-                // if(data.data.status == 200){
-                //   // window.location.href=redirectUrl;
-                // }
-              },
-              error: function(error){
-                console.log(error)
-              }
-            })
-        })
         //href="{{ route('inspection.picture.add', 1) }}"
     </script>
   @endpush

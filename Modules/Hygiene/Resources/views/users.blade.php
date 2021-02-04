@@ -2,8 +2,6 @@
 @section('title','Inspections')
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}">
 @endpush
 @section('content')
     <section class="content-header">
@@ -28,7 +26,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">DataTable with default features</h3>
+              <h3 class="card-title">All Hygienes</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -36,48 +34,44 @@
                 <thead>
                 <tr>
                   <th>SN.</th>
-                  <th>Location</th>
-                  <th>Starting Date</th>
-                  <th>Findings</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
                   <th>Pictures</th>
-                  <th>Protective Corrective Actions</th>
-                  <th>Accountibility</th>
+                  <th>Phone</th>
                   <th>Status</th>
-                  <th>Closing Date</th>
+                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <?php $i = [0=>1, 1=>1, 2=>1, 3=>1, 4=>1, 5>1, 6=>1, 7=>1, 8=>1, 9=>1, 10=>1, 
-                    11=>1, 12=>1 ,13=>1, 14=>1, 15=>1, 16=>1, 18=>1, 19=>1, 20=>1, 21=>1, 22=>1, 23=>1] ?>
-                @foreach($i as $key => $p)
+                @foreach($users as $key=>$user)
                 <tr>
-                    <td>{{ $key+1 }}</td>
-                    <td>Khalifa Kitchen</td>
-                    <td>2021-02-01</td>
-                    <td>The Hand climber has been found in the kitchen room . The handle has been broken. watch it and maintain it.</td>
+                    <td>{{ $key+1 }} <strong style="color:green;"><i class="fa fa-check"></i></strong></td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->role->name }}</td>
+                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
+                    <td>0123456789</td>
+                    <td>{{ $user->status==1?"Active":"Inactive" }}</td>
                     <td>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default">
-                            <img src="{{ asset('dist/img/photo1.png') }}" width="100" alt="">
-                        </button>
+                        <button class="btn btn-success btn-sm"> Approved</button>
+                        @if(Auth::user()->id == $user->id)
+                            <a href="#" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
+                        @endif
                     </td>
-                    <td>The Hand climber has been found in the kitchen room . The handle has been broken. watch it and maintain it</td>
-                    <td>Store</td>
-                    <td>Open</td>
-                    <td>2021-02-01</td>
                 </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
                 <tr>
-                    <th>SN.</th>
-                    <th>Location</th>
-                    <th>Starting Date</th>
-                    <th>Findings</th>
-                    <th>Pictures</th>
-                    <th>Protective Corrective Actions</th>
-                    <th>Accountibility</th>
-                    <th>Status</th>
-                    <th>Closing Date</th>
+                  <th>SN.</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Pictures</th>
+                  <th>Phone</th>
+                  <th>Status</th>
+                  <th>Actions</th>
                 </tr>
                 </tfoot>
               </table>
@@ -140,75 +134,6 @@
   @push('scripts')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ asset('plugins/ion-rangeslider/js/ion.rangeSlider.min.js') }}"></script>
-<!-- Bootstrap slider -->
-<script src="{{ asset('plugins/bootstrap-slider/bootstrap-slider.min.js') }}"></script>
-<script>
-  $(function () {
-    /* BOOTSTRAP SLIDER */
-    $('.slider').bootstrapSlider()
-
-    /* ION SLIDER */
-    $('#range_1').ionRangeSlider({
-      min     : 0,
-      max     : 5000,
-      from    : 1000,
-      to      : 4000,
-      type    : 'double',
-      step    : 1,
-      prefix  : '$',
-      prettify: false,
-      hasGrid : true
-    })
-    $('#range_2').ionRangeSlider()
-
-    $('#range_5').ionRangeSlider({
-      min     : 0,
-      max     : 10,
-      type    : 'single',
-      step    : 0.1,
-      postfix : ' mm',
-      prettify: false,
-      hasGrid : true
-    })
-    $('#range_6').ionRangeSlider({
-      min     : -50,
-      max     : 50,
-      from    : 0,
-      type    : 'single',
-      step    : 1,
-      postfix : '°',
-      prettify: false,
-      hasGrid : true
-    })
-
-    $('#range_4').ionRangeSlider({
-      type      : 'single',
-      step      : 100,
-      postfix   : ' light years',
-      from      : 55000,
-      hideMinMax: true,
-      hideFromTo: false
-    })
-    $('#range_3').ionRangeSlider({
-      type    : 'double',
-      postfix : ' miles',
-      step    : 10000,
-      from    : 25000000,
-      to      : 35000000,
-      onChange: function (obj) {
-        var t = ''
-        for (var prop in obj) {
-          t += prop + ': ' + obj[prop] + '\r\n'
-        }
-        $('#result').html(t)
-      },
-      onLoad  : function (obj) {
-        //
-      }
-    })
-  })
-</script>
     
     <script>
         $(function () {

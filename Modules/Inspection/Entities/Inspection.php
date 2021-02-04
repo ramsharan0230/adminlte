@@ -20,4 +20,8 @@ class Inspection extends Model
     public function seniorOperationManagerInspections(){
         return $this->where(['status'=>1, 'approvedBy_hygiene'=>1, 'approvedBy_siteman'=>1,'approvedBy_opman'=>1])->get();
     }
+
+    public function hygieneInspections(){
+        return $this->where(['status'=>1])->get();
+    }
 }

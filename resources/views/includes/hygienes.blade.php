@@ -8,7 +8,7 @@
     </a>
     <ul class="nav nav-treeview">
       <li class="nav-item">
-        <a href="{{ route('hygiene') }}" class="nav-link">
+        <a href="{{ route('hygiene.users') }}" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
           <p>Lists</p>
         </a>

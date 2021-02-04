@@ -6,17 +6,18 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
-
+use Modules\Inspection\Entities\Inspection;
 
 class HygieneController extends Controller
 {
 
     private $hygienes;
 
-    public function __construct(User $user)
+    public function __construct(User $user, Inspection $inspeciion)
     {
         $this->middleware('auth');
         $this->hygienes = $user->hygienes();
+        $this->inspections = $inspeciion->hygieneInspections();
     }
 
     /**
@@ -25,8 +26,8 @@ class HygieneController extends Controller
      */
     public function index()
     {
-        $users = $this->hygienes;
-        return view('hygiene::index', compact('users'));
+        $inspections = $this->inspections;
+        return view('hygiene::index', compact('inspections'));
     }
 
     /**
@@ -87,5 +88,10 @@ class HygieneController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function users(){
+        $users = $this->hygienes;
+        return view('hygiene::users', compact('users'));
     }
 }
