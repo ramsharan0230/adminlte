@@ -12,5 +12,5 @@
 */
 
 Route::prefix('sitemanager')->middleware(['siteManger'])->group(function() {
-    Route::get('/', 'SiteManagerController@index');
+    Route::get('/', 'SiteManagerController@index')->name('sitemanager');
 });
