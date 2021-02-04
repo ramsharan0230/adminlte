@@ -14,7 +14,7 @@
           <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ \Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -67,7 +67,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('hygienes.list') }}" class="nav-link">
+                <a href="{{ route('hygiene') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Lists</p>
                 </a>
@@ -77,7 +77,7 @@
           
           <li class="nav-header"><strong>Reports</strong> </li>
           <li class="nav-item has-treeview">
-            <a href="{{ route('inspects.list') }}" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Submitted
@@ -86,14 +86,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('hygienes.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PDF</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('hygienes.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Excel</p>
                 </a>
@@ -102,7 +102,7 @@
           </li>
 
           <li class="nav-item has-treeview">
-            <a href="{{ route('inspects.list') }}" class="nav-link">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Unsubmitteds
@@ -111,14 +111,14 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('hygienes.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>PDF</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="{{ route('hygienes.list') }}" class="nav-link">
+                <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Excel</p>
                 </a>

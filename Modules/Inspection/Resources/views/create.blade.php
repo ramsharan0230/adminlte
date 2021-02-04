@@ -68,13 +68,11 @@
                       <label for="finding_suggestions">Findings Suggestions</label>
                       <div class="finding_suggestions">
                         <ul class="suggestions">
-                          <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span></li>
-                          <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                            when an unknown printer took a galley of type and scrambled it to make a type specimen book. </span></li>
-                          <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Many desktop publishing packages and web page editors now use Lorem 
-                            Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</span></li>
-                          <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</span></li>
-                          <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></li>
+                          @forelse ($findings as $item)
+                            <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $item->findings }}</span></li>
+                          @empty
+                              <li class="li_suggestions"> No Item Found!!!</li>
+                          @endforelse
                         </ul>
                       </div>
                     </div>
@@ -91,19 +89,18 @@
                         <label for="pca_suggestions">Proposed Corrective Action Suggestions</label>
                         <div class="pca_suggestions">
                           <ul class="pca_suggestionAll">
-                            <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span></li>
-                            <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                              when an unknown printer took a galley of type and scrambled it to make a type specimen book. </span></li>
-                            <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> Many desktop publishing packages and web page editors now use Lorem 
-                              Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.</span></li>
-                            <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.</span></li>
-                            <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></li>
+                            @forelse ($pcas as $item)
+                              <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $item->pca }}</span></li>
+                            @empty
+                                <li class="li_pca_suggestions"> No Item Found!!!</li>
+                            @endforelse
                           </ul>
                         </div>
                       </div>
                 </div>
 
               </div>
+              <div class="card-footer"></div>
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -173,7 +170,9 @@
 
               </div>
               <!-- /.card-body -->
+              <div class="card-footer"></div>
             </div>
+            
             <!-- /.card -->
           </div>
         </div>

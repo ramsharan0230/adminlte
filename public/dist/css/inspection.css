@@ -1,7 +1,7 @@
 div.finding_suggestions {
     overflow-y:scroll; 
     overflow-x:hidden; 
-    height:300px; 
+    max-height:250px; 
     border: 2px solid gray; 
     border-radius: 5px;
   }
@@ -9,7 +9,7 @@ div.finding_suggestions {
   div.pca_suggestions {
     overflow-y:scroll; 
     overflow-x:hidden; 
-    height:300px; 
+    max-height:250px;
     border: 2px solid gray; 
     border-radius: 5px;
   }

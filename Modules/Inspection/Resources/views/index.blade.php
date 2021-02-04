@@ -157,6 +157,8 @@
             type: "GET",
             dataType: 'json',
             success: function (data) {
+              $('.carousel-indicators').empty();
+              $('.carousel-inner').empty();
               for(var i=0; i<data.data.length; i++){
                 if(i ==0)
                   $('.carousel-indicators').append("<li data-target='#carouselExampleIndicators' data-slide-to="+i+" class='active'></li>")

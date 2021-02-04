@@ -19,7 +19,7 @@ class InspectionController extends Controller
      */
     public function index()
     {
-        $inspections = Inspection::whereStatus(1)->where('user_id', Auth::id())->get();
+        $inspections = Inspection::whereStatus(1)->where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
         return view('inspection::index', compact('inspections'));
     }
 
@@ -29,7 +29,11 @@ class InspectionController extends Controller
      */
     public function create()
     {
-        return view('inspection::create');
+        $findings = Inspection::whereStatus(1)->select('findings')->groupBy('findings')->orderBy('created_at', 'DESC')->get();
+
+        $pcas = Inspection::whereStatus(1)->select('pca')->groupBy('pca')->orderBy('created_at', 'DESC')->get();
+
+        return view('inspection::create', compact('findings', 'pcas'));
     }
 
     /**
@@ -67,7 +71,6 @@ class InspectionController extends Controller
 
     public function storePicture(Request $request){
         // return "one";
-        // return dd($request->all());
         $request->validate([
             'picture' => 'required|min:1000',
             'id' => 'required'
@@ -95,7 +98,7 @@ class InspectionController extends Controller
 
     public function getSliderImages($id){
         $data = Picture::where('inspection_id', $id)->get();
-        
+
         return response()->json(['data' => $data, 'state' => 200]);
     }
     public function show($id)
