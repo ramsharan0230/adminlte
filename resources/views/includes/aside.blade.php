@@ -71,6 +71,16 @@
           @endif
           @if(\Auth::user()->role->slug =='senior-operation-manager')
           @include('includes.senior-operation-managers')
+          <li class="nav-header"><strong>Branches</strong> </li>
+          <li class="nav-item has-treeview">
+            <a href="{{ route('senioroperationmanager.branch') }}" class="nav-link">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                Branches
+              </p>
+            </a>
+            
+          </li>
           @endif
           
           <li class="nav-header"><strong>Reports</strong> </li>

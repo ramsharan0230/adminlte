@@ -6,5 +6,6 @@
     "Picture": true,
     "SiteManager": true,
     "OperationManager": true,
-    "SeniorOperationManager": true
+    "SeniorOperationManager": true,
+    "Branch": true
 }

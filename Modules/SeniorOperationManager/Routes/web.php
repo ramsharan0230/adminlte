@@ -17,4 +17,5 @@ Route::prefix('senioroperationmanager')->middleware('seniorOperationManager')->g
     Route::get('/operation-manager', 'SeniorOperationManagerController@operationManagers')->name('senioroperationmanager.operation-manager');
     Route::get('/site-manager', 'SeniorOperationManagerController@siteManagers')->name('senioroperationmanager.site-manager');
     Route::get('/hygiene', 'SeniorOperationManagerController@hygienes')->name('senioroperationmanager.hygiene');
+    Route::get('/roles', 'SeniorOperationManagerController@roles')->name('senioroperationmanager.roles');
 });

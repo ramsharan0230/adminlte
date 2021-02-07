@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
 use Modules\Inspection\Entities\Inspection;
+use Modules\Role\Entities\Role;
 
 class SeniorOperationManagerController extends Controller
 {
@@ -45,6 +46,12 @@ class SeniorOperationManagerController extends Controller
     public function create()
     {
         return view('senioroperationmanager::create');
+    }
+
+    public function roles()
+    {
+        $roles = Role::where('status', 1)->get();
+        return response()->json(['data'=>$roles, 'status'=>200]);
     }
 
     /**
