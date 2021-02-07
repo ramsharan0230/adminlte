@@ -18,4 +18,11 @@ Route::prefix('senioroperationmanager/branch')->middleware(['auth'])->group(func
     Route::get('/disapprove/{id}', 'BranchController@disapprove')->name('senioroperationmanager.branch.disapprove');
     Route::get('/approve/{id}', 'BranchController@approve')->name('senioroperationmanager.branch.approve');
     Route::get('/detail/{id}', 'BranchController@detail')->name('senioroperationmanager.branch.detail');
+    Route::post('/user/create', 'BranchController@create_user')->name('senioroperationmanager.branch.user.store');
+    Route::post('/user/update', 'BranchController@update_user')->name('senioroperationmanager.branch.user.update');
+
+    Route::get('/user/delete/{id}', 'BranchController@delete_user')->name('senioroperationmanager.branch.user.delete');
+    Route::get('/user/disapprove/{id}', 'BranchController@disapprove_user')->name('senioroperationmanager.branch.user.disapprove');
+    Route::get('/user/approve/{id}', 'BranchController@approve_user')->name('senioroperationmanager.branch.user.approve');
+
 });

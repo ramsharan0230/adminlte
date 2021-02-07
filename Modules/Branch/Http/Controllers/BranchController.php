@@ -6,8 +6,10 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Branch\Entities\Branch;
+use Modules\User\Entities\User;
 use Modules\Branch\Entities\MainOffice;
 use Validator;
+use Hash;
 
 
 class BranchController extends Controller
@@ -18,8 +20,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $branches = Branch::all();
-        $main_branches = MainOffice::where('status', 1)->get();
+        $branches = Branch::orderBy('created_at', 'DESC')->get();
+        $main_branches = MainOffice::where('status', 1)->orderBy('created_at', 'DESC')->get();
         return view('branch::index', compact('branches', 'main_branches'));
     }
 
@@ -142,5 +144,101 @@ class BranchController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function create_user(Request $request){
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|min:3|max:100',
+            'role_id' => 'required|integer',
+            'email' => 'email|required',
+            'address'=>'string|max:100',
+            'phone'=>'max:20',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $data = $request->all();
+        $data['name'] = $request->fullname;
+        $data['password'] = Hash::make($request->password);
+        $data['role_id'] = $request->role_id;
+
+        $user = User::create($data);
+        if($user)
+            return redirect()->route('senioroperationmanager.branch.detail', $request->branch_id)->with(['success'=>"User has been created successfully!"]);
+        else
+            return redirect()->back()->withErrors(['msg'=>"User has been created successfully!"]);
+    }
+
+    public function update_user(Request $request){
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'fullname' => 'required|min:3|max:100',
+            'role_id' => 'required|integer',
+            'email' => 'email|required',
+            'address'=>'string|max:100',
+            'phone'=>'max:20',
+            'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'required|min:6'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $data = $request->all();
+        $data['name'] = $request->fullname;
+        $data['password'] = Hash::make($request->password);
+        $data['role_id'] = $request->role_id;
+        
+        unset($data['_token']);
+        unset($data['password_confirmation']);
+        unset($data['user_id']);
+        unset($data['fullname']);
+
+
+        $user = User::where('id', $request->user_id)->update($data);
+        if($user)
+            return redirect()->route('senioroperationmanager.branch.detail', $request->branch_id)->with(['success'=>"User has been updated successfully!"]);
+        else
+            return redirect()->back()->withErrors(['msg'=>"User has been created successfully!"]);
+    }
+
+    public function delete_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userDelete = User::where('id', $id)->update(['status'=>0]);
+    
+        if($userDelete)
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['success'=>'User Deleted successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function approve_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userAapprove = User::where('id', $id)->update(['status'=>1]);
+    
+        if($userAapprove)
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['success'=>'User Approved successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function disapprove_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userAapprove = User::where('id', $id)->update(['status'=>0]);
+    
+        if($userAapprove)
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['success'=>'User Disapproved successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }
 }

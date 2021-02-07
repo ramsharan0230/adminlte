@@ -1,7 +1,7 @@
-<div class="modal fade" id="modal-create-user" style="display: none;" aria-hidden="true">
+<div class="modal fade" id="modal-edit-user" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form class="form" action="{{ route('senioroperationmanager.branch.user.store') }}" method="POST">
+        <form class="form" action="{{ route('senioroperationmanager.branch.user.update') }}" method="POST">
             @csrf
             <div class="modal-header">
             <h4 class="modal-title">Add New User</h4>
@@ -20,15 +20,15 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input type="hidden" id="branch_id" name="branch_id">
+                            <input type="hidden" name="user_id" id="editUserId">
                             <label for="fullname">Name</label>
-                            <input type="text" class="form-control form-control-sm" id="fullname" name="fullname" placeholder="Name..." value="{{ old('fullname') }}">
+                            <input type="text" class="form-control form-control-sm" id="name" name="fullname" placeholder="Name..." value="{{ old('fullname') }}">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="role_id">Roles</label>
-                            <select name="role_id" id="role_id" class="form-control form-control-sm" >
+                            <label for="editRole_id">Roles</label>
+                            <select name="role_id" id="editRole_id" class="form-control form-control-sm" >
                                 <option value="" disabled selected> Choose Role</option>
                             </select>
                         </div>
@@ -38,28 +38,21 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control form-control-sm" id="address" name="address" placeholder="Address..." value="{{ old('address') }}">
+                            <label for="editPhone">Phone</label>
+                            <input type="text" id="editPhone" class="form-control form-control-sm" name="phone" placeholder="Phone..." value="{{ old('phone') }}">
                         </div>
                     </div>
+
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" id="phone" class="form-control form-control-sm" name="phone" placeholder="Phone..." value="{{ old('phone') }}">
+                            <label for="editEmail">Email</label>
+                            <input type="text" class="form-control form-control-sm" id="editEmail" name="email" placeholder="Email..." value="{{ old('email') }}">
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="text" class="form-control form-control-sm" id="email" name="email" placeholder="Email..." value="{{ old('email') }}">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
+                    <input type="hidden" name="branch_id" id="editBranch_id">
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="password">Password</label>
