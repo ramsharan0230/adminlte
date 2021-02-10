@@ -18,6 +18,10 @@ class User extends Model
         return $this->belongsTo('Modules\Branch\Entities\Branch');
     }
 
+    public function inspections(){
+        return $this->hasMany('Modules\Inspection\Entities\Inspection');
+    }
+
     public function hygienes(){
         return $this->where('role_id', 1)->where('status', 1)->get();
     }

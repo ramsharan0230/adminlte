@@ -7,5 +7,6 @@
     "SiteManager": true,
     "OperationManager": true,
     "SeniorOperationManager": true,
-    "Branch": true
+    "Branch": true,
+    "Review": true
 }

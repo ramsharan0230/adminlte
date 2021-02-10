@@ -44,13 +44,21 @@
                   <th>Accountibility</th>
                   <th>Status</th>
                   <th>Closing Date</th>
+                  <th>Created By</th>
                 </tr>
                 </thead>
                 <tbody>
                     
                 @forelse($inspections as $key => $inspection)
                 <tr>
-                    <td>{{ $key+1 }}</td>
+                    <td>{{ $key+1 }} 
+                      @if($inspection->approvedBy_siteman==1)
+                        <br><i class="fa fa-check" style="color:green"></i>
+                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#un-approve-modal" data-id="{{ $inspection->id }}"><i class="fa fa-times"></i> UnApprove</button>
+                      @else
+                          <button class="btn btn-primary btn-sm"> Approve</button>
+                      @endif
+                    </td>
                     <td>{{ $inspection->location }}</td>
                     <td>{{ $inspection->start_date }}</td>
                     <td>{{ $inspection->findings }}</td>
@@ -66,6 +74,7 @@
                     <td>{{ $inspection->accountibility }}</td>
                     <td>{{ $inspection->status==1?"Open":"Close" }}</td>
                     <td>{{ $inspection->closing_date }}</td>
+                    <td>{{ $inspection->user->name }}</td>
                 </tr>
                 @empty
                 <tr>
@@ -84,6 +93,7 @@
                     <th>Accountibility</th>
                     <th>Status</th>
                     <th>Closing Date</th>
+                    <th>Created By</th>
                 </tr>
                 </tfoot>
               </table>
@@ -128,6 +138,7 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
+      @include('includes.un-approve-modal')
   @endsection
 
   @push('scripts')
