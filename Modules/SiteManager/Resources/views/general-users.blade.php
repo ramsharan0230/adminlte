@@ -60,7 +60,7 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>{{ $user->phone }}</td>
-                    <td><strong style="color:{{ $user->current_status=='normal'?"green":"red" }}">{{ $user->current_status }}</strong></td>
+                    <td><strong style="color:{{ $user->current_status=='normal'?"green":"red" }}">{{ ucfirst($user->current_status) }}</strong></td>
                     <td> <span class="badge {{ $user->status==1?"badge-primary":"badge-danger" }}">{{ $user->status==1?"Active":"InActive" }}</span></td>
                     <td>
                         @if($user->status==0)
