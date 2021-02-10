@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Inspection\Entities\Inspection;
 use Modules\User\Entities\User;
+use Modules\Review\Entities\Review;
+use Validator;
+use Auth;
 
 class SiteManagerController extends Controller
 {
@@ -91,5 +94,35 @@ class SiteManagerController extends Controller
     public function siteManagers(){
         $users = $this->sitemanagers;
         return view('sitemanager::users' ,compact('users'));
+    }
+
+    public function storeReview(Request $request){
+        Validator::make($request->all(), [
+            'comments'=> 'required',
+            'inspection_id'=> 'required|integer'
+         ]);
+        
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        $data['inspection_id'] = $request->inspection_id;
+
+        $review = Review::create($data);
+        Inspection::where('id', $request->inspection_id)->update(['approvedBy_siteman'=>0]);
+        if($review)
+            return redirect()->route('sitemanager')->with(['success'=>"Review created Successfully"]);
+        else
+            return redirect()->route('sitemanager')->with(['danger'=>"Sorry something went wrong!"]);
+    }
+
+    public function approve($id){
+        $inspectionApproved = Inspection::where('id', $id)->update(['approvedBy_siteman'=>1]);
+        if($inspectionApproved)
+            return redirect()->route('sitemanager')->with(['success'=>"Approved Successfully"]);
+        else
+            return redirect()->route('sitemanager')->with(['danger'=>"Sorry something went wrong!"]);
+    }
+
+    public function reviewList($id){
+        return Review::where('inspection_id', $id)->get();
     }
 }

@@ -8,14 +8,27 @@ use Modules\Picture\Entities\Picture;
 
 class Inspection extends Model
 {
-    use HasFactory;
+    
     protected $table = 'inspections';
     protected $fillable = ['location','start_date','findings', 'pca', 'accountibility', 'closing_date', 'user_id', 'approvedBy_hygiene', 'approvedBy_siteman', 'approvedBy_opman', 'approvedBy_sropman', 'status'];
     
+    protected $casts = [
+        'created_at' => 'datetime:d/m/Y', // Change your format
+        'updated_at' => 'datetime:d/m/Y',
+    ];
+
+
     public function pictures(){
         return $this->hasMany(Picture::class);
     }
 
+    public function user(){
+        return $this->belongsTo('Modules\User\Entities\User');
+    }
+
+    public function reviews(){
+        return $this->belongsTo('Modules\Review\Entities\Review');
+    }
 
     public function seniorOperationManagerInspections(){
         return $this->where(['status'=>1, 'approvedBy_hygiene'=>1, 'approvedBy_siteman'=>1,'approvedBy_opman'=>1])->get();
@@ -24,4 +37,5 @@ class Inspection extends Model
     public function hygieneInspections(){
         return $this->where(['status'=>1])->get();
     }
+
 }
