@@ -27,7 +27,7 @@ class Inspection extends Model
     }
 
     public function reviews(){
-        return $this->belongsTo('Modules\Review\Entities\Review');
+        return $this->hasMany('Modules\Review\Entities\Review');
     }
 
     public function seniorOperationManagerInspections(){

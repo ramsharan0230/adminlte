@@ -80,7 +80,7 @@
                       @else
                           <a href="{{ route('sitemanager.approve', $inspection->id) }}" class="btn btn-primary btn-sm"> Approve</a>
                       @endif
-                        <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews</button>
+                        <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews  <span class="badge badge-light">{{ count($inspection->reviews) }}</span></button>
                     </td>
                 </tr>
                 @empty
