@@ -77,10 +77,10 @@
                     <td>
                       @if($inspection->approvedBy_siteman==1)
                         <button class="btn btn-warning btn-sm postReview" data-toggle="modal" data-target="#un-approve-modal" data-id="{{ $inspection->id }}">UnApprove</button>
-                        <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews</button>
                       @else
                           <a href="{{ route('sitemanager.approve', $inspection->id) }}" class="btn btn-primary btn-sm"> Approve</a>
                       @endif
+                        <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews</button>
                     </td>
                 </tr>
                 @empty
