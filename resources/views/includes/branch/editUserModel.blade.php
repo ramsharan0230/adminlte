@@ -4,7 +4,7 @@
         <form class="form" action="{{ route('senioroperationmanager.branch.user.update') }}" method="POST">
             @csrf
             <div class="modal-header">
-            <h4 class="modal-title">Add New User</h4>
+            <h4 class="modal-title">Edit User</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -30,6 +30,8 @@
                             <label for="editRole_id">Roles</label>
                             <select name="role_id" id="editRole_id" class="form-control form-control-sm" >
                                 <option value="" disabled selected> Choose Role</option>
+                                <option value="1" > Hygiene</option>
+                                <option value="2" > Site Manager</option>
                             </select>
                         </div>
                     </div>

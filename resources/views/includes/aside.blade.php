@@ -32,7 +32,7 @@
             @endif
 
             @if(\Auth::user()->role->slug =='site-manager')
-              @include('includes.dashboard.site-manager')
+              @include('includes.dashboard.site-manager')')
             @endif
 
             @if(\Auth::user()->role->slug =='hygiene')

@@ -17,4 +17,5 @@ Route::prefix('sitemanager')->middleware(['siteManger'])->group(function() {
     Route::post('/review/store', 'SiteManagerController@storeReview')->name('sitemanager.review.store');
     Route::get('/approve/{id}', 'SiteManagerController@approve')->name('sitemanager.approve');
     Route::get('/review-list/{id}', 'SiteManagerController@reviewList')->name('sitemanager.review-list');
+    Route::get('/general-users', 'SiteManagerController@general_users')->name('sitemanager.general-users');
 });

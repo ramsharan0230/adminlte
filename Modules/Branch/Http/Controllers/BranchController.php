@@ -151,10 +151,11 @@ class BranchController extends Controller
             'fullname' => 'required|min:3|max:100',
             'role_id' => 'required|integer',
             'email' => 'email|required',
-            'address'=>'string|max:100',
+            'address'=>'sometimes|string|max:100',
             'phone'=>'max:20',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'min:6'
+            'password_confirmation' => 'min:6',
+            'branch_id' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -170,7 +171,7 @@ class BranchController extends Controller
 
         $user = User::create($data);
         if($user)
-            return redirect()->route('senioroperationmanager.branch.detail', $request->branch_id)->with(['success'=>"User has been created successfully!"]);
+            return redirect()->back()->with(['success'=>"User has been created successfully!"]);
         else
             return redirect()->back()->withErrors(['msg'=>"User has been created successfully!"]);
     }
@@ -207,7 +208,7 @@ class BranchController extends Controller
 
         $user = User::where('id', $request->user_id)->update($data);
         if($user)
-            return redirect()->route('senioroperationmanager.branch.detail', $request->branch_id)->with(['success'=>"User has been updated successfully!"]);
+            return redirect()->back()->with(['success'=>"User has been updated successfully!"]);
         else
             return redirect()->back()->withErrors(['msg'=>"User has been created successfully!"]);
     }
@@ -227,7 +228,7 @@ class BranchController extends Controller
         $userAapprove = User::where('id', $id)->update(['status'=>1]);
     
         if($userAapprove)
-            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['success'=>'User Approved successfully!!!']);
+            return redirect()->back()->with(['success'=>'User Approved successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }
@@ -237,7 +238,27 @@ class BranchController extends Controller
         $userAapprove = User::where('id', $id)->update(['status'=>0]);
     
         if($userAapprove)
-            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['success'=>'User Disapproved successfully!!!']);
+            return redirect()->back()->with(['success'=>'User Disapproved successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function enable_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userNormalized = User::where('id', $id)->update(['current_status'=>'normal']);
+    
+        if($userNormalized)
+            return redirect()->back()->with(['success'=>'User Normalized successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function disable_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userSuspended = User::where('id', $id)->update(['current_status'=>'suspended']);
+
+        if($userSuspended)
+            return redirect()->back()->with(['success'=>'User Suspended successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }

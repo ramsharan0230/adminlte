@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title','Inspections')
+@section('title','Site Managers')
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 @endpush
@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Inspections</h1>
+            <h1>Site Managers</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Inspections</li>
+              <li class="breadcrumb-item active">Site Managers</li>
             </ol>
           </div>
         </div>
@@ -26,7 +26,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All Hygienes</h3>
+              <h3 class="card-title">All Site Managers</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

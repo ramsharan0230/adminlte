@@ -20,6 +20,7 @@ class SiteManagerController extends Controller
     {
         $this->middleware('auth');
         $this->sitemanagers = $user->siteManagers();
+        // dd($user->where('status', 1)->where('branch_id', Auth::user()->branch_id)->get());
     }
     /**
      * Display a listing of the resource.
@@ -124,5 +125,11 @@ class SiteManagerController extends Controller
 
     public function reviewList($id){
         return Review::where('inspection_id', $id)->get();
+    }
+
+    public function general_users(){
+        // dd(Auth::user()->branch_id);
+        $users = User::where('branch_id', Auth::user()->branch_id)->where('id', '!=', Auth::id())->get();
+        return view('sitemanager::general-users' ,compact('users'));
     }
 }
