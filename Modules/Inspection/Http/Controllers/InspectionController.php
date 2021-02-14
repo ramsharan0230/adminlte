@@ -9,6 +9,7 @@ use Validator;
 use Auth;
 use Modules\Inspection\Entities\Inspection;
 use Modules\Picture\Entities\Picture;
+use Modules\Review\Entities\Review;
 use Illuminate\Support\Str;
 
 class InspectionController extends Controller
@@ -135,5 +136,24 @@ class InspectionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function reviewList($id){
+        return Review::where('inspection_id', $id)->orderBy('created_at', 'desc')->where('status', 1)->get();
+    }
+
+    public function approve($id){
+        $inspectionApproved = Inspection::where('id', $id)->update(['approvedBy_hygiene'=>1]);
+        if($inspectionApproved)
+            return redirect()->route('hygiene')->with(['success'=>"Approved Successfully"]);
+        else
+            return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
+    }
+
+    public function delete($id){
+        $deleteStatus = Inspection::where('id', $id)->delete();
+        Review::where('inspection_id', $id)->update(['status'=>0]);
+
+        return redirect()->route('hygiene')->with(['message'=>'Deleted Successfully', 'status'=>$deleteStatus]);
     }
 }

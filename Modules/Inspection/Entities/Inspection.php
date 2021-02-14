@@ -5,6 +5,7 @@ namespace Modules\Inspection\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Picture\Entities\Picture;
+use Modules\Review\Entities\Review;
 
 class Inspection extends Model
 {
@@ -38,4 +39,10 @@ class Inspection extends Model
         return $this->where(['status'=>1])->get();
     }
 
+    public static function deleteInspeciton($id){
+        // dd($id, $redirectUrl);
+        // inspection.delete
+        $deleteStatus = Inspection::where('id', $id)->delete();
+        Review::where('inspection_id', $id)->update(['status'=>0]);
+    }
 }

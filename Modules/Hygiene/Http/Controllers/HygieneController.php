@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
 use Modules\Inspection\Entities\Inspection;
+use Auth;
 
 class HygieneController extends Controller
 {

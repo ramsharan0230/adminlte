@@ -33,11 +33,6 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                @if( Session::has( 'message' ))
-                    <div class="alert alert-success">
-                        <p>{{ Session::has( 'message' ) }}</p>
-                    </div>
-                @endif
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -50,21 +45,13 @@
                   <th>Accountibility</th>
                   <th>Status</th>
                   <th>Closing Date</th>
-                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                     
                 @forelse($inspections as $key => $inspection)
                 <tr>
-                    <td>
-                      {{ $key+1 }}
-                      @if($inspection->approvedBy_hygiene==1)
-                        <br><i class="fa fa-check" style="color:green"></i>
-                      @else
-                        <br><i class="fa fa-times-circle" style="color:red" aria-hidden="true"></i>
-                      @endif
-                    </td>
+                    <td>{{ $key+1 }}</td>
                     <td>{{ $inspection->location }}</td>
                     <td>{{ $inspection->start_date }}</td>
                     <td>{{ $inspection->findings }}</td>
@@ -72,7 +59,7 @@
                       <?php 
                           $image = count($inspection->pictures)>0?$inspection->pictures[0]->name:"photo1.png";
                         ?>
-                        <button type="button" class="btn btn-default slider" data-toggle="modal" data-target="#modal-image-slider" data-id="{{ $inspection->id }}">
+                        <button type="button" class="btn btn-default slider" data-toggle="modal" data-target="#modal-default" data-id="{{ $inspection->id }}">
                           <img src="{{ asset('images/inspection_file/pictures').'/'.$image }}" width="100" alt="">
                         </button>
                     </td>
@@ -80,15 +67,6 @@
                     <td>{{ $inspection->accountibility }}</td>
                     <td>{{ $inspection->status==1?"Open":"Close" }}</td>
                     <td>{{ $inspection->closing_date }}</td>
-                    <td>
-                      @if($inspection->approvedBy_hygiene==1)
-                        <button class="btn btn-warning btn-sm postReview" data-toggle="modal" data-target="#un-approve-modal" data-id="{{ $inspection->id }}">UnApprove</button>
-                      @else
-                          <a href="{{ route('inspection.approve', $inspection->id) }}" class="btn btn-primary btn-sm"> Approve</a>
-                      @endif
-                        <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews  <span class="badge badge-light">{{ count($inspection->reviews) }}</span></button>
-                    <a class="btn btn-danger btn-sm" title="Delete Inspection" href="{{ route('inspection.delete', $inspection->id) }}"><i class="fa fa-trash"></i> Delete</a>
-                    </td>
                 </tr>
                 @empty
                 <tr>
@@ -107,7 +85,6 @@
                     <th>Accountibility</th>
                     <th>Status</th>
                     <th>Closing Date</th>
-                    <th>Actions</th>
                 </tr>
                 </tfoot>
               </table>
@@ -118,15 +95,47 @@
       </div>
     </section>
     <!-- /.content -->
-    @include('includes.un-approve-modal')
-    @include('includes.review-list-modal')
-    @include('includes.modal-image-slider')
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <form action="{{ route('inspection.picture.add') }}" method="GET">
+              <div class="modal-header">
+                <h4 class="modal-title">Pictures</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" id="inspection" name="inspection_id">
+                  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                      <ol class="carousel-indicators"></ol>
+                      <div class="carousel-inner"> </div>
+                      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                      </a>
+                  </div>
+              </div>
+              <div class="modal-footer justify-content-between">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add Picture</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
   @endsection
 
   @push('scripts')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-    <script src="{{ asset('dist/js/moment.min.js') }}"> </script>
+    
     <script>
         $(function () {
             $("#example1").DataTable();
@@ -139,40 +148,5 @@
               "autoWidth": false,
             });
         });
-      $('.postReview').click(function(){
-        $('#inspection_id').val($(this).data('id'))
-      })
-
-      $('.reviewList').click(function(){
-        $.ajax({
-            type: 'GET',
-            url: '/inspection/review-list/'+$(this).data('id'),
-            success: function(data){
-              $(".reviews").empty()
-              if(data.length>0){
-                $.each( data, function( key, value ) {
-                  $(".reviews").append('\
-                    <div class="col-sm-12">\
-                      <div class="alert alert-primary" role="alert" style="padding: 10px">\
-                        <span>'+value.comments+'</span>\
-                        <p class="float-right datatime"> '+formatDate(value.created_at)+'</p>\
-                      </div>\
-                    </div>')
-                });
-              }else{
-                $(".reviews").append('<p>No Review Found!!</p>')
-              }
-            },
-            error: function(xhr){
-                console.log(xhr.responseText);
-            }
-        });
-      })
-
-      function formatDate(date){
-        let tanggal = moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD MMMM, YYYY');
-        return tanggal;
-      }
-      
     </script>
   @endpush
