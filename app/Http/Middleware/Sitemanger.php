@@ -4,9 +4,11 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use App\Models\User;
+
 use Auth;
 
-class Sitemanger
+class Sitemanger 
 {
     /**
      * Handle an incoming request.
@@ -38,5 +40,9 @@ class Sitemanger
         }
 
         return $next($request);
+    }
+
+    public function __construct(User $user){
+        $user->CheckUserStatus();
     }
 }
