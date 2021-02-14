@@ -30,6 +30,11 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
+              @if(session()->has('message'))
+                  <div class="alert alert-success">
+                      {{ session()->get('message') }}
+                  </div>
+              @endif
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -37,8 +42,8 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
+                  <th>Current Status</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -50,13 +55,14 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
-                    <td>0123456789</td>
+                    <td>{{ $user->phone }}</td>
+                    <td><span class="badge badge-{{  $user->current_status === "approved" ? "success" : ($user->current_status ==="normal" ? "warning":"danger") }}"> {{ $user->current_status }}</span> </td>
                     <td>{{ $user->status==1?"Active":"Inactive" }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm"> Approved</button>
                         @if(Auth::user()->id == $user->id)
-                            <a href="#" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
+                            <a href="#" class="btn btn-primary btn-sm editUser" data-toggle="modal" data-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" 
+                              data-email="{{ $user->email }}" data-role_id="{{ $user->role->id }}" data-phone="{{ $user->phone }}"
+                              data-status="{{ $user->status }}" data-branch_id="{{ $user->branch_id }}"><i class="fa fa-edit"></i> Edit</a>
                         @endif
                     </td>
                 </tr>
@@ -68,8 +74,8 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
+                  <th>Current Status</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -82,60 +88,99 @@
       </div>
     </section>
     <!-- /.content -->
-    <div class="modal fade" id="modal-default">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Pictures</h4>
+
+    <div class="modal fade" id="editUserModal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form class="form" action="{{ route('hygiene.user.update') }}" method="POST">
+              @csrf
+              <div class="modal-header">
+              <h4 class="modal-title">Edit User</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+                  <span aria-hidden="true">×</span>
               </button>
-            </div>
-            <div class="modal-body">
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img class="d-block w-100" src="{{ asset('dist/img/photo1.png') }}" alt="First slide">
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-sm-12">
+                          @if ($errors->any())
+                              @foreach ($errors->all() as $error)
+                                  <div class="alert alert-danger">{{$error}}</div>
+                              @endforeach
+                          @endif
                       </div>
-                      <div class="carousel-item">
-                        <img class="d-block w-100" src="{{ asset('dist/img/photo2.png') }}" alt="Second slide">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <input type="hidden" name="user_id" id="editUserId">
+                              <label for="fullname">Name</label>
+                              <input type="text" class="form-control form-control-sm" id="name" name="fullname" placeholder="Name..." value="{{ old('fullname') }}">
+                          </div>
                       </div>
-                      <div class="carousel-item">
-                        <img class="d-block w-100" src="{{ asset('dist/img/photo3.jpg') }}" alt="Third slide">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="editRole_id">Roles</label>
+                              <select name="role_id" id="editRole_id" class="form-control form-control-sm" >
+                                  <option value="" disabled selected> Choose Role</option>
+                                  <option value="1"> Hygiene</option>
+                              </select>
+                          </div>
                       </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-between">
-                <div class="row">
-                    <button type="button" class="btn btn-default float-right pull-right" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-          </div>
-          <!-- /.modal-content -->
+                  </div>
+                  
+                  <div class="row">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="editPhone">Phone</label>
+                              <input type="text" id="editPhone" class="form-control form-control-sm" name="phone" placeholder="Phone..." value="{{ old('phone') }}">
+                          </div>
+                      </div>
+  
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="editEmail">Email</label>
+                              <input type="text" class="form-control form-control-sm" id="editEmail" name="email" placeholder="Email..." value="{{ old('email') }}">
+                          </div>
+                      </div>
+                  </div>
+  
+                  <div class="row">
+                      <input type="hidden" name="branch_id" id="editBranch_id">
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="password">Password</label>
+                              <input type="password" class="form-control form-control-sm" id="password" name="password" placeholder="Passwored..." value="{{ old('password') }}">
+                          </div>
+                      </div>
+                      <div class="col-sm-6">
+                          <div class="form-group">
+                              <label for="password_confirmation">Conform Password</label>
+                              <input type="password" class="form-control form-control-sm" id="password_confirmation" name="password_confirmation" placeholder="Conform Password..." value="{{ old('password_confirmation') }}">
+                          </div>
+                      </div>
+                  </div>
+                  
+              </div>
+              <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary btn-sm">Save</button>
+              </div>
+          </form>
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal-content -->
       </div>
-  @endsection
+    </div>
+  
+    @endsection
 
   @push('scripts')
+  
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
     
     <script>
+      @if(count($errors)>0)
+        $('#editUserModal').modal('show')
+      @endif
         $(function () {
             $("#example1").DataTable();
             $('#example2').DataTable({
@@ -147,5 +192,14 @@
             "autoWidth": false,
             });
         });
+
+        $('.editUser').click(function(){
+          $('#editUserId').val($(this).data('id'))
+          $('#name').val($(this).data('name'))
+          $('#editRole_id').val($(this).data('role_id'))
+          $('#editPhone').val($(this).data('phone'))
+          $('#editEmail').val($(this).data('email'))
+          $('#editBranch_id').val($(this).data('branch_id'))
+        })
     </script>
   @endpush

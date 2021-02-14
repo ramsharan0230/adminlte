@@ -30,11 +30,11 @@ class InspectionController extends Controller
      */
     public function create()
     {
-        $findings = Inspection::whereStatus(1)->select('findings')->groupBy('findings')->orderBy('created_at', 'DESC')->get();
-
-        $pcas = Inspection::whereStatus(1)->select('pca')->groupBy('pca')->orderBy('created_at', 'DESC')->get();
-
-        return view('inspection::create', compact('findings', 'pcas'));
+        $prepends = Inspection::whereStatus(1)->select(['findings', 'pca', 'location', 'accountibility'])
+            ->groupBy(['findings', 'pca', 'location', 'accountibility'])
+            ->get();
+            
+        return view('inspection::create', compact('prepends'));
     }
 
     /**
@@ -59,9 +59,9 @@ class InspectionController extends Controller
 
         $inspection = Inspection::create($data);
         if($inspection)
-            return redirect()->route('inspection')->with(['success'=>"Inspection created Successfully"]);
+            return redirect()->route('hygiene')->with(['success'=>"Inspection created Successfully"]);
         else
-            return redirect()->route('inspection')->with(['danger'=>"Sorry something went wrong!"]);
+            return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
 
     }
 

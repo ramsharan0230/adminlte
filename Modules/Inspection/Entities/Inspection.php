@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\Picture\Entities\Picture;
 use Modules\Review\Entities\Review;
+use Auth;
 
 class Inspection extends Model
 {
@@ -36,7 +37,7 @@ class Inspection extends Model
     }
 
     public function hygieneInspections(){
-        return $this->where(['status'=>1])->get();
+        return $this->where(['status'=>1]);
     }
 
     public static function deleteInspeciton($id){

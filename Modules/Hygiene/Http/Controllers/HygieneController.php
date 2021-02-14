@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
 use Modules\Inspection\Entities\Inspection;
+use Hash;
+use Validator;
 use Auth;
 
 class HygieneController extends Controller
@@ -14,11 +16,12 @@ class HygieneController extends Controller
 
     private $hygienes;
 
-    public function __construct(User $user, Inspection $inspeciion)
+    public function __construct(User $user, Inspection $inspection)
     {
         $this->middleware('auth');
         $this->hygienes = $user->hygienes();
-        $this->inspections = $inspeciion->hygieneInspections();
+        $this->inspection = $inspection->hygieneInspections();
+
     }
 
     /**
@@ -27,7 +30,7 @@ class HygieneController extends Controller
      */
     public function index()
     {
-        $inspections = $this->inspections;
+        $inspections = $this->inspection->where('user_id', Auth::id())->get();
         return view('hygiene::index', compact('inspections'));
     }
 
@@ -94,5 +97,38 @@ class HygieneController extends Controller
     public function users(){
         $users = $this->hygienes;
         return view('hygiene::users', compact('users'));
+    }
+
+    public function updateUser(Request $request){
+        $validator = Validator::make($request->all(), [
+            'fullname' => 'required|min:3|max:100',
+            'email' => 'email|required',
+            'phone' => 'required|max:15',
+            'role_id' => 'required|integer',
+            'branch_id' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+
+        $data = $request->except(['fullname','_token', 'user_id', 'password', 'password_confirmation']);
+        $data['name'] = $request->fullname;
+        if($request->password !=null){
+            $password = Hash::make($request->password);
+        }else{
+            $userUpdate = User::findOrFail(Auth::user()->id)->first();
+            $password = $userUpdate->password;
+        }
+        
+        $data['password'] = $password;
+        $user = User::where('id', Auth::user()->id)->update($data);
+
+        if($user)
+            return redirect()->route('hygiene.users')->with(['success'=>"User updated successfully!"]);
+        else
+            return redirect()->back()->withErrors(['msg'=>"Sorry! Something went wrong"]);
     }
 }

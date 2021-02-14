@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'users';
-    protected $fillable = ['name', 'email', 'password', 'phone', 'role_id', 'password', 'status', 'current_status'];
+    protected $fillable = ['name', 'email', 'password', 'phone', 'role_id', 'user_id', 'password', 'status', 'current_status'];
 
     /**
      * The attributes that should be hidden for arrays.

@@ -50,13 +50,16 @@
                             <label for="inputStatus">Choose Location</label>
                             <select class="form-control custom-select" id="location_choose">
                               <option selected disabled>Select one</option>
-                              <option>Khalifa Kitchen</option>
-                              <option>Store</option>
-                              <option>Kitchen</option>
+                              @forelse($prepends as $prepend)
+                              <option>{{ $prepend->location }}</option>
+                              @empty
+                              <option value="">No Item Found!!</option>
+                              @endforelse
                             </select>
                           </div>
                       </div>
                   </div>
+
                   <div class="row">
                     <div class="col-sm-3">
                       <div class="form-group">
@@ -68,8 +71,8 @@
                       <label for="finding_suggestions">Findings Suggestions</label>
                       <div class="finding_suggestions">
                         <ul class="suggestions">
-                          @forelse ($findings as $item)
-                            <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $item->findings }}</span></li>
+                          @forelse($prepends as $prepend)
+                            <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $prepend->findings }}</span></li>
                           @empty
                               <li class="li_suggestions"> No Item Found!!!</li>
                           @endforelse
@@ -89,8 +92,8 @@
                         <label for="pca_suggestions">Proposed Corrective Action Suggestions</label>
                         <div class="pca_suggestions">
                           <ul class="pca_suggestionAll">
-                            @forelse ($pcas as $item)
-                              <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $item->pca }}</span></li>
+                            @forelse($prepends as $prepend)
+                              <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $prepend->pca }}</span></li>
                             @empty
                                 <li class="li_pca_suggestions"> No Item Found!!!</li>
                             @endforelse
@@ -127,10 +130,10 @@
                             <label for="inputStatus">Choose Accountibility</label>
                             <select class="form-control custom-select" id="accountibility1">
                                 <option selected disabled>Select one</option>
-                                <option>Production Department</option>
-                                <option>Store</option>
-                                <option>Maintenance</option>
-                                <option>Stewarding Supervisor</option>
+                                @forelse($prepends as $prepend)
+                                <option>{{ $prepend->accountibility }}</option>
+                                @empty
+                                @endforelse
                             </select>
                         </div>
                     </div>
@@ -154,8 +157,6 @@
                       </div>
                   </div>
                 
-
-
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
