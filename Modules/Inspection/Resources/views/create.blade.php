@@ -42,7 +42,7 @@
                       <div class="col-sm-8">
                         <div class="form-group">
                             <label for="location">Location</label>
-                            <input type="text" id="location" class="form-control" name="location">
+                            <input type="text" id="location" class="form-control" name="location" autocomplete="off">
                         </div>
                       </div>
                       <div class="col-sm-4">
@@ -64,7 +64,7 @@
                     <div class="col-sm-3">
                       <div class="form-group">
                         <label for="findings">Findings Description</label>
-                        <textarea id="findings" class="form-control" rows="4" name="findings" placeholder="Type finding or problems"></textarea>
+                        <textarea id="findings" class="form-control" rows="4" name="findings" placeholder="Type finding or problems" autocomplete="off"></textarea>
                       </div>
                     </div>
                     <div class="col-sm-3" >
@@ -85,7 +85,7 @@
                     <div class="col-sm-3">
                         <div class="form-group">
                           <label for="pca">Proposed Corrective Action</label>
-                          <textarea id="pca" class="form-control" rows="4" name="pca" placeholder="Type Proposed Corrective Actions..."></textarea>
+                          <textarea id="pca" class="form-control" rows="4" name="pca" placeholder="Type Proposed Corrective Actions..." autocomplete="off"></textarea>
                         </div>
                       </div>
                       <div class="col-sm-3" >
@@ -122,7 +122,7 @@
                     <div class="col-sm-8">
                         <div class="form-group">
                             <label for="accountibility">Accountibility</label>
-                            <input type="text" class="form-control" name="accountibility" id="accountibility" placeholder="Accountibility...">
+                            <input type="text" class="form-control" name="accountibility" id="accountibility" placeholder="Accountibility..." autocomplete="off">
                         </div>
                     </div>
                     <div class="col-sm-4">
@@ -143,7 +143,7 @@
                         <div class="form-group">
                             <label for="datepicker1">Date</label>
                             <div class='input-group date' id='datetimepicker1' >
-                                <input type="text" class="datepicker1" name="start_date">
+                                <input type="text" class="datepicker1" name="start_date" autocomplete="off">
                             </div>
                         </div> 
                       </div>
@@ -151,7 +151,7 @@
                         <div class="form-group">
                             <label for="datepicker">Closing Date</label>
                             <div class='input-group date' id='datetimepicker1'>
-                                <input type="text" class="datepicker" name="closing_date">
+                                <input type="text" class="datepicker" name="closing_date" autocomplete="off">
                             </div>
                         </div>
                       </div>
