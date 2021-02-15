@@ -24,6 +24,7 @@
               </div>
           </div>
           <div class="modal-footer justify-content-between">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plus"></i> Add Picture</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </form>

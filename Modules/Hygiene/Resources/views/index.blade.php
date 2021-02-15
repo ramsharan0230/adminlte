@@ -118,6 +118,7 @@
       </div>
     </section>
     <!-- /.content -->
+    
     @include('includes.un-approve-modal')
     @include('includes.review-list-modal')
     @include('includes.modal-image-slider')
