@@ -24,65 +24,69 @@
     <section class="content">
       <div class="container-fluid">
           <!-- Default box -->
-          <div class="card">
-            <div class="card-header">
-              <h3 class="card-title">All Hygienes</h3>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">All Hygienes</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                  @if(session()->has('message'))
+                      <div class="alert alert-success">
+                          {{ session()->get('message') }}
+                      </div>
+                  @endif
+                  <table id="example1" class="table table-bordered table-striped table-responsive">
+                    <thead>
+                    <tr>
+                      <th>SN.</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Phone</th>
+                      <th>Current Status</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($users as $key=>$user)
+                    <tr>
+                        <td>{{ $key+1 }} <strong style="color:green;"><i class="fa fa-check"></i></strong></td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->role->name }}</td>
+                        <td>{{ $user->phone }}</td>
+                        <td><span class="badge badge-{{  $user->current_status === "approved" ? "success" : ($user->current_status ==="normal" ? "warning":"danger") }}"> {{ $user->current_status }}</span> </td>
+                        <td>{{ $user->status==1?"Active":"Inactive" }}</td>
+                        <td>
+                            @if(Auth::user()->id == $user->id)
+                                <a href="#" class="btn btn-primary btn-sm editUser" data-toggle="modal" data-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" 
+                                  data-email="{{ $user->email }}" data-role_id="{{ $user->role->id }}" data-phone="{{ $user->phone }}"
+                                  data-status="{{ $user->status }}" data-branch_id="{{ $user->branch_id }}"><i class="fa fa-edit"></i> Edit</a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                      <th>SN.</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th>Phone</th>
+                      <th>Current Status</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <!-- /.card-body -->
+              </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              @if(session()->has('message'))
-                  <div class="alert alert-success">
-                      {{ session()->get('message') }}
-                  </div>
-              @endif
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                  <th>SN.</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Phone</th>
-                  <th>Current Status</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($users as $key=>$user)
-                <tr>
-                    <td>{{ $key+1 }} <strong style="color:green;"><i class="fa fa-check"></i></strong></td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->role->name }}</td>
-                    <td>{{ $user->phone }}</td>
-                    <td><span class="badge badge-{{  $user->current_status === "approved" ? "success" : ($user->current_status ==="normal" ? "warning":"danger") }}"> {{ $user->current_status }}</span> </td>
-                    <td>{{ $user->status==1?"Active":"Inactive" }}</td>
-                    <td>
-                        @if(Auth::user()->id == $user->id)
-                            <a href="#" class="btn btn-primary btn-sm editUser" data-toggle="modal" data-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" 
-                              data-email="{{ $user->email }}" data-role_id="{{ $user->role->id }}" data-phone="{{ $user->phone }}"
-                              data-status="{{ $user->status }}" data-branch_id="{{ $user->branch_id }}"><i class="fa fa-edit"></i> Edit</a>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
-                </tbody>
-                <tfoot>
-                <tr>
-                  <th>SN.</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Phone</th>
-                  <th>Current Status</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-                </tfoot>
-              </table>
-            </div>
-            <!-- /.card-body -->
           </div>
       <!-- /.card -->
       </div>
@@ -190,6 +194,7 @@
             "ordering": true,
             "info": true,
             "autoWidth": false,
+            'responsive': true
             });
         });
 

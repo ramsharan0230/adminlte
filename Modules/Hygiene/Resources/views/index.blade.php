@@ -129,14 +129,14 @@
     <script src="{{ asset('dist/js/moment.min.js') }}"> </script>
     <script>
         $(function () {
-            $("#example1").DataTable();
-            $('#example2').DataTable({
+            $('#example1').DataTable({
               "paging": true,
               "lengthChange": false,
               "searching": false,
               "ordering": true,
               "info": true,
               "autoWidth": false,
+              "responsive": true
             });
         });
       $('.postReview').click(function(){
