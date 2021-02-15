@@ -22,6 +22,10 @@ class User extends Model
         return $this->hasMany('Modules\Inspection\Entities\Inspection');
     }
 
+    public function reviews(){
+        return $this->hasMany('Modules\Review\Entities\Review');
+    }
+
     public function hygienes(){
         return $this->where('role_id', 1)->where('status', 1)->get();
     }

@@ -1,9 +1,12 @@
 @extends('layouts.admin.master')
 @section('title','Inspections')
 @push('stylesheets')
-<link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
-<link rel="stylesheet" href="{{ asset('plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/ion-rangeslider/css/ion.rangeSlider.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-slider/css/bootstrap-slider.min.css') }}">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" href="{{ asset('dist/css/inspection.css') }}">
 @endpush
 @section('content')
     <section class="content-header">
@@ -33,9 +36,14 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                @if( Session::has( 'message' ))
+                @if( session('success'))
                     <div class="alert alert-success">
-                        <p>{{ Session::has( 'message' ) }}</p>
+                        <p>{{ session('success') }}</p>
+                    </div>
+                @endif
+                @if( session('error'))
+                    <div class="alert alert-danger">
+                        <p>{{  session('error') }}</p>
                     </div>
                 @endif
               <table id="example1" class="table table-bordered table-striped">
@@ -78,17 +86,24 @@
                     </td>
                     <td>{{ $inspection->pca }}</td>
                     <td>{{ $inspection->accountibility }}</td>
-                    <td>{{ $inspection->status==1?"Open":"Close" }}</td>
+                    <td>
+                      <button class="btn btn-{{ $inspection->status==1?"primary":"success" }} btn-sm">{{ $inspection->status==1?"Open":"Close" }}</button>
+                    </td>
                     <td>{{ $inspection->closing_date }}</td>
                     <td>
                       @if($inspection->approvedBy_hygiene==1)
-                        <button class="btn btn-warning btn-sm postReview" data-toggle="modal" data-target="#un-approve-modal" data-id="{{ $inspection->id }}">UnApprove</button>
+                        <button class="btn btn-warning btn-sm postReview" data-toggle="modal" data-target="#unapprove-comment" data-id="{{ $inspection->id }}">UnApprove</button>
                       @else
                           <a href="{{ route('inspection.approve', $inspection->id) }}" class="btn btn-primary btn-sm"> Approve</a>
                       @endif
                         <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews  <span class="badge badge-light">{{ count($inspection->reviews) }}</span></button>
-                    <a class="btn btn-danger btn-sm" title="Delete Inspection" href="{{ route('inspection.delete', $inspection->id) }}"><i class="fa fa-trash"></i> Delete</a>
-                    </td>
+                        <a class="btn btn-danger btn-sm" title="Delete Inspection" href="{{ route('inspection.delete', $inspection->id) }}"><i class="fa fa-trash"></i> Delete</a>
+                        <a class="btn btn-success btn-sm editInspection" title="Edit Inspection" data-toggle="modal" data-target="#edit-inspection-modal" data-id="{{ $inspection->id }}"
+                          data-location="{{ $inspection->location }}" data-start_date="{{ $inspection->start_date }}" data-findings="{{ $inspection->findings }}"
+                          data-pictures="{{ $inspection->pictures }}" data-pca="{{ $inspection->pca }}" data-accountibility="{{ $inspection->accountibility }}"
+                          data-status="{{ $inspection->status }}" data-closing_date="{{ $inspection->closing_date }}"
+                          ><i class="fa fa-list" aria-hidden="true"></i> Edit</a>
+                      </td>
                 </tr>
                 @empty
                 <tr>
@@ -119,15 +134,21 @@
     </section>
     <!-- /.content -->
     
-    @include('includes.un-approve-modal')
+    @include('hygiene::unapprove-comment')
     @include('includes.review-list-modal')
     @include('includes.modal-image-slider')
+    @include('hygiene::edit-inspection-modal')
+    
+
   @endsection
 
   @push('scripts')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('dist/js/moment.min.js') }}"> </script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('dist/js/inspection.js') }}"></script>
     <script>
         $(function () {
             $('#example1').DataTable({
@@ -157,6 +178,7 @@
                       <div class="alert alert-primary" role="alert" style="padding: 10px">\
                         <span>'+value.comments+'</span>\
                         <p class="float-right datatime"> '+formatDate(value.created_at)+'</p>\
+                        \<button class="btn btn-warning btn-sm">'+value.user.name+'</button>\
                       </div>\
                     </div>')
                 });
@@ -174,6 +196,17 @@
         let tanggal = moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD MMMM, YYYY');
         return tanggal;
       }
+
+      $('.editInspection').click(function(){
+        var id = $(this).data('id')
+        $('#editLocation').val($(this).data('location'))
+        $('#editFindings').val($(this).data('findings'))
+        $('#editPca').val($(this).data('pca'))
+        $('#editAccountibility').val($(this).data('accountibility'))
+        $('.datepicker').val($(this).data('closing_date'))
+        $('#editStatus').val($(this).data('status'))
+        debugger
+      })
       
     </script>
   @endpush

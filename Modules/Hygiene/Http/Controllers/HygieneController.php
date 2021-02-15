@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
+use Modules\Review\Entities\Review;
 use Modules\Inspection\Entities\Inspection;
 use Hash;
 use Validator;
@@ -30,8 +31,11 @@ class HygieneController extends Controller
      */
     public function index()
     {
+        $prepends = Inspection::whereStatus(1)->select(['findings', 'pca', 'location', 'accountibility'])
+            ->groupBy(['findings', 'pca', 'location', 'accountibility'])
+            ->get();
         $inspections = $this->inspection->where('user_id', Auth::id())->get();
-        return view('hygiene::index', compact('inspections'));
+        return view('hygiene::index', compact('inspections', 'prepends'));
     }
 
     /**
@@ -130,5 +134,24 @@ class HygieneController extends Controller
             return redirect()->route('hygiene.users')->with(['success'=>"User updated successfully!"]);
         else
             return redirect()->back()->withErrors(['msg'=>"Sorry! Something went wrong"]);
+    }
+
+
+    public function saveReview(Request $request){
+        Validator::make($request->all(), [
+            'comments'=> 'required',
+            'inspection_id'=> 'required|integer'
+         ]);
+        
+        $data = $request->all();
+        $data['user_id'] = Auth::id();
+        $data['inspection_id'] = $request->inspection_id;
+
+        $review = Review::create($data);
+        Inspection::where('id', $request->inspection_id)->update(['approvedBy_siteman'=>0]);
+        if($review)
+            return redirect()->route('hygiene')->with('success',"Review created Successfully");
+        else
+            return redirect()->route('hygiene')->with('error',"Sorry something went wrong!");
     }
 }

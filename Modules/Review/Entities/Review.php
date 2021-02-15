@@ -15,4 +15,8 @@ class Review extends Model
     public function inspection(){
         return $this->belongsTo('Modules\Inspection\Entities\Inspection');
     }
+
+    public function user(){
+        return $this->belongsTo('Modules\User\Entities\User');
+    }
 }
