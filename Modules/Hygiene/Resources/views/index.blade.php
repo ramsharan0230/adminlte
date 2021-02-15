@@ -178,7 +178,6 @@
                       <div class="alert alert-primary" role="alert" style="padding: 10px">\
                         <span>'+value.comments+'</span>\
                         <p class="float-right datatime"> '+formatDate(value.created_at)+'</p>\
-                        \<button class="btn btn-warning btn-sm">'+value.user.name+'</button>\
                       </div>\
                     </div>')
                 });
