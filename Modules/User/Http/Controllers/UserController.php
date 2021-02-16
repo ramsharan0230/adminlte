@@ -40,6 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'branch_id' =>'required|integer',
             'fullname' => 'required|min:3|max:100',
             'email' => 'email|required',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
@@ -60,7 +61,7 @@ class UserController extends Controller
 
         $user = User::create($data);
         if($user)
-            return redirect()->route('user')->with(['success'=>"User has been created successfully!"]);
+            return redirect()->route('user-temp-dashboard', $user->id)->with(['success'=>"User has been created successfully!"]);
         else
             return redirect()->back()->withErrors(['msg'=>"User has been created successfully!"]);
     }

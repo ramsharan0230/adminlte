@@ -16,4 +16,8 @@ class Branch extends Model
     public function users(){
         return $this->hasMany('Modules\User\Entities\User');
     }
+
+    public function scopeStatus($query){
+        return $query->where('status', 1)->get();
+    }
 }
