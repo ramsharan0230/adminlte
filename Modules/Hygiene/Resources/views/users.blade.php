@@ -53,7 +53,7 @@
                     <tbody>
                     @foreach($users as $key=>$user)
                     <tr>
-                        <td>{{ $key+1 }} <strong style="color:green;"><i class="fa fa-check"></i></strong></td>
+                        <td>{{ $key+1 }}. <strong><i class="fa fa-{{  $user->current_status === "approved" ? "check" : ($user->current_status ==="normal" ? "ban":"times") }}"></i></strong></td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->role->name }}</td>
