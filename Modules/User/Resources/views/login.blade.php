@@ -54,7 +54,7 @@
                     <a href="forgot-password.html" style="">I forgot my password</a>
                 </div>
                 <div class="col-sm-6">
-                    <a href="register.html" class="text-center">Register</a>
+                    <a href="{{ route('register') }}" class="text-center">Register</a>
                 </div>
             </div>
         </div>
