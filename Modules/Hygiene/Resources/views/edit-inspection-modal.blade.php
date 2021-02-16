@@ -3,7 +3,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-            <h4 class="modal-title">Add Your Comment</h4>
+            <h4 class="modal-title">Edit Inspection</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -11,7 +11,7 @@
       
         <div class="modal-body">
             <section class="content">
-                <form action="{{ route('inspection.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('inspection.update') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -28,6 +28,7 @@
                             <div class="row">
                                 <div class="col-sm-8">
                                 <div class="form-group">
+                                    <input type="hidden" name="editInspectionId" id="inspectionFoundId">
                                     <label for="location">Location</label>
                                     <input type="text" id="location" class="form-control" name="location" autocomplete="off">
                                 </div>
@@ -110,7 +111,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="datepicker1">Date</label>
                                         <div class='input-group date' id='datetimepicker1' >
@@ -118,7 +119,7 @@
                                         </div>
                                     </div> 
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="datepicker">Closing Date</label>
                                         <div class='input-group date' id='datetimepicker1'>
@@ -126,15 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="publish"><input type="checkbox" name="publish"> Publish</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="editStatus">Status</label>
                                         <select name="status" id="editStatus" class="form-control form-control-sm">
@@ -149,7 +142,7 @@
                         </div>
                         <div class="card-footer">
                             <div class="col-12">
-                                <input type="submit" value="Create new Inspection" class="btn btn-success btn-sm">
+                                <input type="submit" value="Update Inspection" class="btn btn-success btn-sm">
                             </div>
                         </div>
                         <!-- /.card-body -->

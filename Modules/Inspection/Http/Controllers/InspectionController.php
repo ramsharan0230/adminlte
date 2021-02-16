@@ -123,9 +123,26 @@ class InspectionController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
+        Validator::make($request->all(), [
+            'editInspectionId' =>'required|integer',
+            'location'=> 'required|max:199',
+            'findings'=> 'required|max:2500',
+            'pca'=> 'required|max:2500',
+            'accountibility'=> 'required',
+            'start_date'=> 'required',
+            'closing_date'=> 'required'
+         ]);
+        $data = $request->except(['editInspectionId', '_token']);
+        $data['status'] = $request->status;
+
+        $inspection = Inspection::where('id', $request->editInspectionId)->update($data);
+        if($inspection)
+            return redirect()->route('hygiene')->with(['success'=>"Inspection updated Successfully"]);
+        else
+            return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
     }
 
     /**

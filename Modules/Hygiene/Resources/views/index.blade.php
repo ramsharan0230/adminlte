@@ -98,8 +98,8 @@
                       @endif
                         <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews  <span class="badge badge-light">{{ count($inspection->reviews) }}</span></button>
                         <a class="btn btn-danger btn-sm" title="Delete Inspection" href="{{ route('inspection.delete', $inspection->id) }}"><i class="fa fa-trash"></i> Delete</a>
-                        <a class="btn btn-success btn-sm editInspection" title="Edit Inspection" data-toggle="modal" data-target="#edit-inspection-modal" data-id="{{ $inspection->id }}"
-                          data-location="{{ $inspection->location }}" data-start_date="{{ $inspection->start_date }}" data-findings="{{ $inspection->findings }}"
+                        <a class="btn btn-success btn-sm editInspection" title="Edit Inspection" data-toggle="modal" data-target="#edit-inspection-modal" 
+                          data-id="{{ $inspection->id }}"data-location="{{ $inspection->location }}" data-start_date="{{ $inspection->start_date }}" data-findings="{{ $inspection->findings }}"
                           data-pictures="{{ $inspection->pictures }}" data-pca="{{ $inspection->pca }}" data-accountibility="{{ $inspection->accountibility }}"
                           data-status="{{ $inspection->status }}" data-closing_date="{{ $inspection->closing_date }}"
                           ><i class="fa fa-list" aria-hidden="true"></i> Edit</a>
@@ -197,14 +197,13 @@
       }
 
       $('.editInspection').click(function(){
-        var id = $(this).data('id')
-        $('#editLocation').val($(this).data('location'))
-        $('#editFindings').val($(this).data('findings'))
-        $('#editPca').val($(this).data('pca'))
-        $('#editAccountibility').val($(this).data('accountibility'))
+        $('#inspectionFoundId').val($(this).data('id'))
+        $('#location').val($(this).data('location'))
+        $('#findings').val($(this).data('findings'))
+        $('#pca').val($(this).data('pca'))
+        $('#accountibility').val($(this).data('accountibility'))
         $('.datepicker').val($(this).data('closing_date'))
         $('#editStatus').val($(this).data('status'))
-        debugger
       })
       
     </script>
