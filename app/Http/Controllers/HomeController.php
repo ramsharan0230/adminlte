@@ -45,6 +45,10 @@ class HomeController extends Controller
             return redirect()->route('senioroperationmanager');
         }
 
-        return view('home');
+        if (Auth::user()->role->slug == 'normal-user') {
+            return redirect()->route('user-temp-dashboard', Auth::id());
+        }
+
+        return $next($request);
     }
 }
