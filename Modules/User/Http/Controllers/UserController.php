@@ -43,6 +43,7 @@ class UserController extends Controller
             'branch_id' =>'required|integer',
             'fullname' => 'required|min:3|max:100',
             'email' => 'email|required',
+            'phone' => 'sometimes|max:17',
             'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6',
             'terms' => 'required'

@@ -26,5 +26,6 @@ Route::prefix('senioroperationmanager/branch')->middleware(['auth'])->group(func
     Route::get('/user/approve/{id}', 'BranchController@approve_user')->name('senioroperationmanager.branch.user.approve');
     Route::get('/user/enable/{id}', 'BranchController@enable_user')->name('senioroperationmanager.branch.user.enable');
     Route::get('/user/disable/{id}', 'BranchController@disable_user')->name('senioroperationmanager.branch.user.disable');
+    Route::get('/user/normalize/{id}', 'BranchController@normalized_user')->name('senioroperationmanager.branch.user.normalize');
 
 });

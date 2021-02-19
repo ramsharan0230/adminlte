@@ -2,6 +2,59 @@
 @section('title','Branches')
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+<style>
+    .nav-tabs-custom>.nav-tabs>li:first-of-type.active>a {
+        border-left-color: transparent;
+    }
+    .nav-tabs-custom>.nav-tabs>li.active>a {
+    border-top-color: transparent;
+    border-left-color: #f4f4f4;
+    border-right-color: #f4f4f4;
+}
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.nav {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.nav-tabs-custom>.nav-tabs>li.active>a, .nav-tabs-custom>.nav-tabs>li.active:hover>a {
+    background-color: #fff;
+    color: #444;
+}
+.nav-tabs-custom>.nav-tabs>li>a, .nav-tabs-custom>.nav-tabs>li>a:hover {
+    background: transparent;
+    margin: 0;
+}
+.nav-tabs-custom>.nav-tabs>li>a {
+    color: #444;
+    border-radius: 0;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent;
+}
+.nav-tabs>li>a {
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 4px 4px 0 0;
+}
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+}
+</style>
 @endpush
 @section('content')
     <section class="content-header">
@@ -33,20 +86,20 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                @if(session()->has('success'))
-                    <div class="alert alert-success">
-                        {{ session()->get('success') }}
-                    </div>
-                @endif
-                @if(session()->get('error'))
-                    <div class="alert alert-success">
-                        {{ session()->get('error') }}
-                    </div>
-                @endif
 
                 <div class="row">
                     @include('includes.branch.branch-detail')
-                    <div class="col-sm-9">
+                    <div class="col-sm-12 mt-3">
+                        @if(session()->has('success'))
+                            <div class="alert alert-success">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
+                        @if(session()->get('error'))
+                            <div class="alert alert-success">
+                                {{ session()->get('error') }}
+                            </div>
+                        @endif
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -67,17 +120,22 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->role->name }}</td>
                                         <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->status }}</td>
+                                        <td><span class="badge badge-{{ $user->current_status=="approved"?"success":($user->current_status=="normal"?"primary":"danger") }}">{{ ucfirst($user->current_status) }}</span></td>
                                         <td>
                                             <a href="#" class="btn btn-primary btn-sm editUser" data-toggle="modal"  
                                             data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-email="{{ $user->email }}" data-branch_id={{ $branch->id }}
                                             data-role_id="{{ $user->role_id }}" data-phone="{{ $user->phone }}" data-current_status="{{ $user->current_status }}"
                                             data-target="#modal-edit-user"><i class="fa fa-user-edit"></i> Edit</a>
 
-                                            @if($user->status ==1)
-                                            <a href="{{ route('senioroperationmanager.branch.user.disapprove', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Disapprove</a>
+                                            @if($user->current_status =='normal')
+                                            <a href="{{ route('senioroperationmanager.branch.user.approve', $user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-times"></i> Approve</a>
+                                            <a href="{{ route('senioroperationmanager.branch.user.disapprove', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Suspend</a>
+                                            @elseif($user->current_status =='suspended')
+                                            <a href="{{ route('senioroperationmanager.branch.user.approve', $user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-times"></i> Approve</a>
+                                            <a href="{{ route('senioroperationmanager.branch.user.normalize', $user->id) }}" class="btn btn-secondary btn-sm"><i class="fa fa-times"></i> Normalize</a>
                                             @else
-                                            <a href="{{ route('senioroperationmanager.branch.user.approve', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Approve</a>
+                                            <a href="{{ route('senioroperationmanager.branch.user.disapprove', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Suspend</a>
+                                            <a href="{{ route('senioroperationmanager.branch.user.normalize', $user->id) }}" class="btn btn-secondary btn-sm"><i class="fa fa-times"></i> Normalize</a>
                                             @endif
                                             <a href="{{ route('senioroperationmanager.branch.user.delete', $user->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
                                         </td>
@@ -198,5 +256,4 @@
                 });
             }
     </script>
-
   @endpush

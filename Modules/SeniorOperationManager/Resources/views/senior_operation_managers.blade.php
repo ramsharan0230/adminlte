@@ -37,7 +37,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -50,8 +49,7 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
-                    <td>0123456789</td>
+                    <td>{{ $user->phone }}</td>
                     <td>{{ $user->status==1?"Active":"Inactive" }}</td>
                     <td>
                         <button class="btn btn-success btn-sm"> Approved</button>
@@ -68,7 +66,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Actions</th>

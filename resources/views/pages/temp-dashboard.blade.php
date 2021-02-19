@@ -35,6 +35,10 @@
                               <li class="list-group-item">
                                 <b>Status</b> <a class="pull-right float-right">{{ ucfirst($user->current_status) }} <i class="fa fa-{{ $user->current_status==="approved"?"check":($user->current_status==="normal"?"ban":"times") }}"></i></a>
                               </li>
+
+                              <li class="list-group-item">
+                                <b>Phone</b> <a class="pull-right float-right">{{ ucfirst($user->phone) }} <i class="fa fa-phone"></i></a>
+                              </li>
                             </ul>
                           </div>
                           <!-- /.box-body -->

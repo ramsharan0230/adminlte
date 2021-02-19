@@ -95,7 +95,8 @@ class BranchController extends Controller
 
     public function detail($id)
     {
-        $branch = Branch::where('id', $id)->where('status', 1)->with('users')->first();
+        $branch = Branch::where('id', $id)->with('users')->first();
+        
         return view('branch::detail', compact('branch'));
     }
 
@@ -225,7 +226,7 @@ class BranchController extends Controller
 
     public function approve_user($id){
         $userFound = User::findOrFail($id)->first();
-        $userAapprove = User::where('id', $id)->update(['status'=>1]);
+        $userAapprove = User::where('id', $id)->update(['current_status'=>'approved']);
     
         if($userAapprove)
             return redirect()->back()->with(['success'=>'User Approved successfully!!!']);
@@ -235,20 +236,20 @@ class BranchController extends Controller
 
     public function disapprove_user($id){
         $userFound = User::findOrFail($id)->first();
-        $userAapprove = User::where('id', $id)->update(['status'=>0]);
+        $userAapprove = User::where('id', $id)->update(['current_status'=>'suspended']);
     
         if($userAapprove)
-            return redirect()->back()->with(['success'=>'User Disapproved successfully!!!']);
+            return redirect()->back()->with(['success'=>'User Suspended successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }
 
     public function enable_user($id){
         $userFound = User::findOrFail($id)->first();
-        $userNormalized = User::where('id', $id)->update(['current_status'=>'normal']);
+        $userNormalized = User::where('id', $id)->update(['current_status'=>'approved']);
     
         if($userNormalized)
-            return redirect()->back()->with(['success'=>'User Normalized successfully!!!']);
+            return redirect()->back()->with(['success'=>'User Approved successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }
@@ -259,6 +260,16 @@ class BranchController extends Controller
 
         if($userSuspended)
             return redirect()->back()->with(['success'=>'User Suspended successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function normalized_user($id){
+        $userFound = User::findOrFail($id)->first();
+        $userSuspended = User::where('id', $id)->update(['current_status'=>'normal']);
+
+        if($userSuspended)
+            return redirect()->back()->with(['success'=>'User Normalized successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
     }

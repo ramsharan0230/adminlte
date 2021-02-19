@@ -26,9 +26,9 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All Hygienes</h3>
+              <h3 class="card-title">All Hygienes <button class="btn btn-primary btn-sm"><i class="fa fa-home"></i> {{ $branch->name }}</button></h3>
               <button class="btn btn-primary btn-sm float-right userCreateModal" data-toggle="modal" data-target="#modal-create-user" 
-              data-branch_id="{{ $users[0]->branch->id }}" data-branch_name="{{ $users[0]->branch->name }}">
+              data-branch_id="{{ $branch->id }}" data-branch_name="{{ $branch->name }}">
                 <i class="fa fa-plus"></i>  Add</button>
             </div>
             <!-- /.card-header -->
@@ -41,59 +41,52 @@
                   <th>Email</th>
                   <th>Role</th>
                   <th>Phone</th>
-                  <th>Approved</th>
-                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($users as $key=>$user)
                 <tr>
-                    <td>{{ $key+1 }} 
-                        @if($user->status==1)
-                            <strong style="color:green;"><i class="fa fa-check-circle"></i></strong>
-                        @else
-                            <strong style="color:red;"><i class="fa fa-times-circle"></i></strong>
-                        @endif
-                    </td>
+                    <td>{{ $key+1 }}. <i style="color:{{ $user->current_status=='approved'?'green':($user->current_status=='suspended'?'red':'gray') }}" 
+                      class="fa fa-{{ $user->current_status=='approved'?'check':($user->current_status=='suspended'?'times':'ban') }}"></i></td>
                     <td>{{ $user->name }} </td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td>{{ $user->phone }}</td>
-                    <td><strong style="color:{{ $user->current_status=='normal'?"green":"red" }}">{{ ucfirst($user->current_status) }}</strong></td>
-                    <td> <span class="badge {{ $user->status==1?"badge-primary":"badge-danger" }}">{{ $user->status==1?"Active":"InActive" }}</span></td>
+                    <td><span class="badge badge-{{ $user->current_status=='approved'?'success':($user->current_status=='suspended'?'danger':'primary') }}">
+                      {{ $user->current_status=='approved'?'Approved':($user->current_status=='suspended'?'Suspended':'Normal') }}</span>
+                    </td>
                     <td>
-                        @if($user->status==0)
-                            <a class="btn btn-success btn-sm" href="{{ route('senioroperationmanager.branch.user.approve', $user->id) }}"> Approve</a>
-                        @else
-                            <a class="btn btn-warning btn-sm" href="{{ route('senioroperationmanager.branch.user.disapprove', $user->id) }}"> Disapprove</a>
-                        @endif
+                      @if($user->current_status =='normal')
+                      <a href="{{ route('sitemanager.user.approve', $user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-times"></i> Approve</a>
+                      <a href="{{ route('sitemanager.user.disapprove', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Suspend</a>
+                      @elseif($user->current_status =='suspended')
+                      <a href="{{ route('sitemanager.user.approve', $user->id) }}" class="btn btn-primary btn-sm"><i class="fa fa-times"></i> Approve</a>
+                      <a href="{{ route('sitemanager.user.normalize', $user->id) }}" class="btn btn-secondary btn-sm"><i class="fa fa-times"></i> Normalize</a>
+                      @else
+                      <a href="{{ route('sitemanager.user.disapprove', $user->id) }}" class="btn btn-warning btn-sm"><i class="fa fa-times"></i> Suspend</a>
+                      <a href="{{ route('sitemanager.user.normalize', $user->id) }}" class="btn btn-secondary btn-sm"><i class="fa fa-times"></i> Normalize</a>
+                      @endif
+                      <a href="{{ route('sitemanager.user.delete', $user->id) }}" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
 
-                        <a href="" class="btn btn-primary btn-sm userDetail" data-toggle="modal" data-target="#modal-edit-user" 
+                      <a href="" class="btn btn-primary btn-sm userDetail" data-toggle="modal" data-target="#modal-edit-user" 
                         data-user_id="{{ $user->id }}" data-user_name="{{ $user->name }}" data-user_status="{{ $user->status }}" data-user_branch_id="{{ $user->branch_id }}"
                         data-user_email="{{ $user->email }}" data-user_phone="{{ $user->phone }}" data-user_role_id="{{ $user->role_id }}">
                         <i class="fa fa-indent"></i> Edit</a>
-
-                        @if($user->current_status=='suspended')
-                            <a class="btn btn-primary btn-sm" href="{{ route('senioroperationmanager.branch.user.enable', $user->id) }}"><i class="fa fa-check"></i> Enable</a>
-                        @else
-                            <a class="btn btn-danger btn-sm" href="{{ route('senioroperationmanager.branch.user.disable', $user->id) }}"><i class="fa fa-times"></i> Disable</a>
-                        @endif
                     </td>
                 </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
-                <tr>
-                  <th>SN.</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Phone</th>
-                  <th>Approved</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
+                  <tr>
+                    <th>SN.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
                 </tfoot>
               </table>
             </div>

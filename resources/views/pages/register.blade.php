@@ -34,7 +34,7 @@
             </select>
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-user"></span>
+                <span class="fas fa-home"></span>
               </div>
             </div>
           </div>
@@ -52,6 +52,14 @@
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+          </div>
+          <div class="input-group mb-3">
+            <input type="phone" class="form-control" placeholder="phone" name="phone" value="{{ old('phone') }}">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-phone"></span>
               </div>
             </div>
           </div>

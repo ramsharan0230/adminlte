@@ -26,7 +26,8 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All Site Managers</h3>
+              <h3 class="card-title">All Site Managers </h3>
+              <button class="btn btn-primary btn-sm float-right"><i class="fa fa-home"></i> {{ $branch->name }}</button>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -37,28 +38,31 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
-                  <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($users as $key=>$user)
                 <tr>
-                    <td>{{ $key+1 }} <strong style="color:green;"><i class="fa fa-check"></i></strong></td>
+                    <td>{{ $key+1 }}. 
+                      <i style="color: {{ $user->current_status=='approved'?'green':($user->current_status=='suspended'?'red':'gray') }}" class="fa fa-{{ $user->current_status=='approved'?'check':($user->current_status=='suspended'?'times':'ban') }}"></span>
+                    </td>
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
-                    <td>0123456789</td>
-                    <td>{{ $user->status==1?"Active":"Inactive" }}</td>
+                    <td>{{ $user->phone }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm"> Approved</button>
-                        @if(Auth::user()->id == $user->id)
-                            <a href="#" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
-                        @endif
+                      <span class="badge badge-{{ $user->current_status=='approved'?'success':($user->current_status=='suspended'?'danger':'primary') }}">
+                        {{ $user->current_status=='approved'?'Approved':($user->current_status=='suspended'?'Suspended':'Normal') }}</span>
+                      @if(Auth::user()->id == $user->id)
+                      <a href="" class="btn btn-primary btn-sm userDetail" data-toggle="modal" data-target="#modal-edit-user" 
+                        data-user_id="{{ $user->id }}" data-user_name="{{ $user->name }}" data-user_status="{{ $user->status }}" data-user_branch_id="{{ $user->branch_id }}"
+                        data-user_email="{{ $user->email }}" data-user_phone="{{ $user->phone }}" data-user_role_id="{{ $user->role_id }}">
+                        <i class="fa fa-indent"></i> Edit</a>
+                      @endif  
                     </td>
+                    
                 </tr>
                 @endforeach
                 </tbody>
@@ -68,10 +72,8 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
-                  <th>Actions</th>
                 </tr>
                 </tfoot>
               </table>
@@ -82,6 +84,7 @@
       </div>
     </section>
     <!-- /.content -->
+    @include('includes.branch.editUserModel')
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -147,5 +150,22 @@
             "autoWidth": false,
             });
         });
+
+        $('.userDetail').click(function(){
+            var id = $(this).data('user_id')
+            var user_name = $(this).data('user_name')
+            var user_status = $(this).data('user_status')
+            var user_email = $(this).data('user_email')
+            var user_phone = $(this).data('user_phone')
+            var user_role_id = $(this).data('user_role_id')
+            var user_branch_id = $(this).data('user_branch_id')
+            $('#editUserId').val(id)
+            $('#name').val(user_name)
+            $('#editRole_id').val(user_role_id)
+            $('#editPhone').val(user_phone)
+            $('#editEmail').val(user_email)
+            $('#editBranch_id').val(user_branch_id)
+            $('#editStatus').val(user_status)
+        })
     </script>
   @endpush

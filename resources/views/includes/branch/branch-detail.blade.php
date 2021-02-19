@@ -1,4 +1,4 @@
-<div class="col-sm-3">
+<div class="col-sm-12">
     <div class="card">
         <div class="card-header">
           <h3 class="card-title"><strong>{{ $branch->name }}</strong></h3>
@@ -9,38 +9,38 @@
           </div>
         </div>
         <div class="card-body p-0" style="display: block;">
-          <ul class="nav nav-pills flex-column">
-            <li class="nav-item active">
-              <a href="#" class="nav-link">
-                <i class="fas fa-inbox"></i> Email
-                <span class="float-right">{{ $branch->email }}</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-envelope"></i> Address
-                <span class="float-right"> {{ $branch->address }}</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fas fa-phone"></i> Phone
-                <span class="float-right"> {{ $branch->phone }}</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fas fa-fax"></i> Fax
-                <span class="float-right"> {{ $branch->fax }}</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-address-card"></i> Main Branch
-                <span class="float-right"> {{ $branch->mainOffice->name }}</span>
-              </a>
-            </li>
-          </ul>
+          {{-- new --}}
+          <div class="nav-tabs-custom mt-3" style="padding: 20px">
+            <ul class="nav nav-tabs pull-right">
+              <li class="active"><a href="#email" data-toggle="tab" aria-expanded="false">Email</a></li>
+              <li class="actived"><a href="#address" data-toggle="tab" aria-expanded="true">Address</a></li>
+              <li class="actived"><a href="#phone" data-toggle="tab" aria-expanded="true">Phone</a></li>
+              <li class="actived"><a href="#fax" data-toggle="tab" aria-expanded="true">Fax</a></li>
+
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active" id="email">
+                <b>{{ $branch->email }}</b>
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="address">
+                {{ $branch->address}}
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="phone">
+                {{ $branch->phone }}
+              </div>
+              <!-- /.tab-pane -->
+
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="fax">
+                {{ $branch->fax }}
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+          </div>
+          
         </div>
         <!-- /.card-body -->
       </div>

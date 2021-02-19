@@ -18,4 +18,10 @@ Route::prefix('sitemanager')->middleware(['siteManger'])->group(function() {
     Route::get('/approve/{id}', 'SiteManagerController@approve')->name('sitemanager.approve');
     Route::get('/review-list/{id}', 'SiteManagerController@reviewList')->name('sitemanager.review-list');
     Route::get('/general-users', 'SiteManagerController@general_users')->name('sitemanager.general-users');
+
+    //new
+    Route::get('/user/approve/{id}', 'SiteManagerController@approveUser')->name('sitemanager.user.approve');
+    Route::get('/user/disapprove/{id}', 'SiteManagerController@disapproveUser')->name('sitemanager.user.disapprove');
+    Route::get('/user/normalize/{id}', 'SiteManagerController@normalizeUser')->name('sitemanager.user.normalize');
+    Route::get('/user/delete/{id}', 'SiteManagerController@deleteUser')->name('sitemanager.user.delete');
 });

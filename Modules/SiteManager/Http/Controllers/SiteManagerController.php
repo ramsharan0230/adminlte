@@ -15,11 +15,14 @@ class SiteManagerController extends Controller
 {
 
     private $sitemanagers;
+    private $branch;
+    private $user;
 
     public function __construct(User $user)
     {
         $this->middleware('auth');
         $this->sitemanagers = $user->siteManagers();
+        $this->user = $user;
         // dd($user->where('status', 1)->where('branch_id', Auth::user()->branch_id)->get());
     }
     /**
@@ -28,8 +31,10 @@ class SiteManagerController extends Controller
      */
     public function index()
     {
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch;
         $inspections = Inspection::all();
-        return view('sitemanager::index', compact('inspections'));
+        return view('sitemanager::index', compact('inspections', 'branch'));
     }
 
     /**
@@ -93,8 +98,10 @@ class SiteManagerController extends Controller
     }
 
     public function siteManagers(){
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch;
         $users = $this->sitemanagers;
-        return view('sitemanager::users' ,compact('users'));
+        return view('sitemanager::users' ,compact('users', 'branch'));
     }
 
     public function storeReview(Request $request){
@@ -128,8 +135,50 @@ class SiteManagerController extends Controller
     }
 
     public function general_users(){
-        // dd(Auth::user()->branch_id);
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch;
         $users = User::where('branch_id', Auth::user()->branch_id)->where('id', '!=', Auth::id())->get();
-        return view('sitemanager::general-users' ,compact('users'));
+        return view('sitemanager::general-users' ,compact('users', 'branch'));
     }
+
+    public function approveUser($id){
+        $userFound = User::findOrFail($id)->first();
+        $userApproved = User::where('id', $id)->update(['current_status'=>'approved']);
+    
+        if($userApproved)
+            return redirect()->back()->with(['success'=>'User Approved successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function disapproveUser($id){
+        $userFound = User::findOrFail($id)->first();
+        $disapprovedUser = User::where('id', $id)->update(['current_status'=>'suspended']);
+    
+        if($disapprovedUser)
+            return redirect()->back()->with(['success'=>'User Suspended successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function normalizeUser($id){
+        $userFound = User::findOrFail($id)->first();
+        $userNormalized = User::where('id', $id)->update(['current_status'=>'normal']);
+    
+        if($userNormalized)
+            return redirect()->back()->with(['success'=>'User Normalized successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+    public function deleteUser($id){
+        $userFound = User::findOrFail($id)->first();
+        $deleted = User::where('id', $id)->update(['status'=>1]);
+    
+        if($deleted)
+            return redirect()->back()->with(['success'=>'User Deleted successfully!!!']);
+        else
+            return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+    
 }
