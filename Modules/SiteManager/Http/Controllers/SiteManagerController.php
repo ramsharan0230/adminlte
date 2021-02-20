@@ -31,9 +31,16 @@ class SiteManagerController extends Controller
      */
     public function index()
     {
+        $inspections= array();
         $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
         $branch = $this->branch;
-        $inspections = Inspection::all();
+        // dd($branch);
+        $branch_users = $branch->users()->get();
+        foreach($branch_users as $user){
+            foreach($user->inspections as $inspection){
+                array_push($inspections, $inspection);
+            }
+        }
         return view('sitemanager::index', compact('inspections', 'branch'));
     }
 

@@ -19,4 +19,6 @@ Route::prefix('hygiene')->middleware('hygiene')->group(function() {
     Route::get('/users', 'HygieneController@users')->name('hygiene.users');
     Route::post('/user/update', 'HygieneController@updateUser')->name('hygiene.user.update');
     Route::post('/inspection/review', 'HygieneController@saveReview')->name('hygiene.inspection.review');
+    Route::post('/inspection/update/status', 'HygieneController@updateStatus')->name('inspection.update.status');
+    
 });

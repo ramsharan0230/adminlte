@@ -50,7 +50,7 @@
                             <label for="inputStatus">Choose Location</label>
                             <select class="form-control custom-select" id="location_choose">
                               <option selected disabled>Select one</option>
-                              @forelse($prepends as $prepend)
+                              @forelse($locations as $prepend)
                               <option>{{ $prepend->location }}</option>
                               @empty
                               <option value="">No Item Found!!</option>
@@ -71,7 +71,7 @@
                       <label for="finding_suggestions">Findings Suggestions</label>
                       <div class="finding_suggestions">
                         <ul class="suggestions">
-                          @forelse($prepends as $prepend)
+                          @forelse($findings as $prepend)
                             <li class="li_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $prepend->findings }}</span></li>
                           @empty
                               <li class="li_suggestions"> No Item Found!!!</li>
@@ -92,7 +92,7 @@
                         <label for="pca_suggestions">Proposed Corrective Action Suggestions</label>
                         <div class="pca_suggestions">
                           <ul class="pca_suggestionAll">
-                            @forelse($prepends as $prepend)
+                            @forelse($pcas as $prepend)
                               <li class="li_pca_suggestions"><span class="t"><i class="fa fa-arrow-right"></i> {{ $prepend->pca }}</span></li>
                             @empty
                                 <li class="li_pca_suggestions"> No Item Found!!!</li>
@@ -130,7 +130,7 @@
                             <label for="inputStatus">Choose Accountibility</label>
                             <select class="form-control custom-select" id="accountibility1">
                                 <option selected disabled>Select one</option>
-                                @forelse($prepends as $prepend)
+                                @forelse($accountibilities as $prepend)
                                 <option>{{ $prepend->accountibility }}</option>
                                 @empty
                                 @endforelse

@@ -29,6 +29,7 @@
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">All Hygienes</h3>
+                  <button class="btn btn-primary btn-sm ml-3 float-right"><i class="fa fa-home"></i> {{ $branch->name }}</button>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -46,7 +47,6 @@
                       <th>Role</th>
                       <th>Phone</th>
                       <th>Current Status</th>
-                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                     </thead>
@@ -59,7 +59,6 @@
                         <td>{{ $user->role->name }}</td>
                         <td>{{ $user->phone }}</td>
                         <td><span class="badge badge-{{  $user->current_status === "approved" ? "success" : ($user->current_status ==="normal" ? "warning":"danger") }}"> {{ $user->current_status }}</span> </td>
-                        <td>{{ $user->status==1?"Active":"Inactive" }}</td>
                         <td>
                             @if(Auth::user()->id == $user->id)
                                 <a href="#" class="btn btn-primary btn-sm editUser" data-toggle="modal" data-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" 
@@ -78,7 +77,6 @@
                       <th>Role</th>
                       <th>Phone</th>
                       <th>Current Status</th>
-                      <th>Status</th>
                       <th>Actions</th>
                     </tr>
                     </tfoot>

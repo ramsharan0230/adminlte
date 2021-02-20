@@ -85,7 +85,7 @@
                 </tr>
                 @empty
                 <tr>
-                  <td colspan="9">No inspection found!!</td>
+                  <td colspan="10">No inspection found!!</td>
                 </tr>
                 @endforelse
                 </tbody>

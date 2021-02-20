@@ -31,7 +31,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Inspection Lists</h3>
+              <h3 class="card-title">Inspection Lists <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ $branch->name }}</button></h3>
               <a href="{{ route('inspection.create') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i>  Add</a>
             </div>
             <!-- /.card-header -->
@@ -87,7 +87,8 @@
                     <td>{{ $inspection->pca }}</td>
                     <td>{{ $inspection->accountibility }}</td>
                     <td>
-                      <button class="btn btn-{{ $inspection->status==1?"primary":"success" }} btn-sm">{{ $inspection->status==1?"Open":"Close" }}</button>
+                      <button class="btn btn-{{ $inspection->status==1?"primary":"success" }} btn-sm editStatusOnly" data-toggle="modal" data-target="#edit-status-modal" 
+                        data-id="{{ $inspection->id }}" data-status="{{ $inspection->status }}" >{{ $inspection->status==1?"Open":"Close" }}</button>
                     </td>
                     <td>{{ $inspection->closing_date }}</td>
                     <td>
@@ -107,7 +108,7 @@
                 </tr>
                 @empty
                 <tr>
-                  <td colspan="9">No inspection found!!</td>
+                  <td colspan="10">No inspection found!!</td>
                 </tr>
                 @endforelse
                 </tbody>
@@ -138,28 +139,20 @@
     @include('includes.review-list-modal')
     @include('includes.modal-image-slider')
     @include('hygiene::edit-inspection-modal')
-    
-
+    @include('hygiene::edit-status-modal')
   @endsection
 
   @push('scripts')
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('dist/js/inspection.js') }}"></script>
     <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('dist/js/moment.min.js') }}"> </script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="{{ asset('dist/js/inspection.js') }}"></script>
+    
     <script>
         $(function () {
-            $('#example1').DataTable({
-              "paging": true,
-              "lengthChange": false,
-              "searching": false,
-              "ordering": true,
-              "info": true,
-              "autoWidth": false,
-              "responsive": true
-            });
+            $('#example1').DataTable();
         });
       $('.postReview').click(function(){
         $('#inspection_id').val($(this).data('id'))
@@ -205,6 +198,12 @@
         $('.datepicker').val($(this).data('closing_date'))
         $('#editStatus').val($(this).data('status'))
       })
+
+      $('.editStatusOnly').click(function(){
+        $('#inspect_id').val($(this).data('id'))
+        $('#editOnlyStatus').val($(this).data('status'))
+      })
+      
       
     </script>
   @endpush

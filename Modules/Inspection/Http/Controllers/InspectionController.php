@@ -30,11 +30,13 @@ class InspectionController extends Controller
      */
     public function create()
     {
-        $prepends = Inspection::whereStatus(1)->select(['findings', 'pca', 'location', 'accountibility'])
-            ->groupBy(['findings', 'pca', 'location', 'accountibility'])
-            ->get();
-            
-        return view('inspection::create', compact('prepends'));
+        // dd(23);
+        $findings = Inspection::whereStatus(1)->select('findings')->distinct('findings')->get();
+        $locations = Inspection::whereStatus(1)->select('location')->distinct('location')->get();
+        $pcas = Inspection::whereStatus(1)->select('pca')->distinct('pca')->get();
+        $accountibilities = Inspection::whereStatus(1)->select('accountibility')->distinct('accountibility')->get();
+
+        return view('inspection::create', compact(['findings', 'locations', 'pcas', 'accountibilities']));
     }
 
     /**

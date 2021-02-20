@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
 use Modules\Review\Entities\Review;
+use Modules\Branch\Entities\Branch;
 use Modules\Inspection\Entities\Inspection;
 use Hash;
 use Validator;
@@ -16,26 +17,32 @@ class HygieneController extends Controller
 {
 
     private $hygienes;
+    private $user;
 
     public function __construct(User $user, Inspection $inspection)
     {
         $this->middleware('auth');
         $this->hygienes = $user->hygienes();
-        $this->inspection = $inspection->hygieneInspections();
-
+        $this->inspection = $inspection;
+        $this->user = $user;
     }
 
+    public function branch()
+    {
+        return Branch::where('id', Auth::user()->branch_id)->first();
+    }
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
+        $branch = $this->branch();
         $prepends = Inspection::whereStatus(1)->select(['findings', 'pca', 'location', 'accountibility'])
             ->groupBy(['findings', 'pca', 'location', 'accountibility'])
             ->get();
         $inspections = $this->inspection->where('user_id', Auth::id())->get();
-        return view('hygiene::index', compact('inspections', 'prepends'));
+        return view('hygiene::index', compact('inspections', 'prepends', 'branch'));
     }
 
     /**
@@ -100,7 +107,8 @@ class HygieneController extends Controller
 
     public function users(){
         $users = $this->hygienes;
-        return view('hygiene::users', compact('users'));
+        $branch = $this->branch();
+        return view('hygiene::users', compact('users', 'branch'));
     }
 
     public function updateUser(Request $request){
@@ -153,5 +161,24 @@ class HygieneController extends Controller
             return redirect()->route('hygiene')->with('success',"Review created Successfully");
         else
             return redirect()->route('hygiene')->with('error',"Sorry something went wrong!");
+    }
+
+    public function updateStatus(Request $request){
+        $validator = Validator::make($request->all(), [
+            'status' => 'required',
+            'inspection_id'=> 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+        $status = Inspection::where('id', $request->inspection_id)->update(['status'=>$request->status]);
+
+        if($status)
+            return redirect()->route('hygiene')->with(['success'=>"Status updated successfully!"]);
+        else
+            return redirect()->back()->withErrors(['msg'=>"Sorry! Something went wrong"]);
     }
 }
