@@ -98,12 +98,14 @@
                           <a href="{{ route('inspection.approve', $inspection->id) }}" class="btn btn-primary btn-sm"> Approve</a>
                       @endif
                         <button class="btn btn-secondary btn-sm reviewList mt-1" data-toggle="modal" data-target="#review-list-modal" data-id="{{ $inspection->id }}">Reviews  <span class="badge badge-light">{{ count($inspection->reviews) }}</span></button>
+                        @if($inspection->approvedBy_hygiene==0)
                         <a class="btn btn-danger btn-sm" title="Delete Inspection" href="{{ route('inspection.delete', $inspection->id) }}"><i class="fa fa-trash"></i> Delete</a>
                         <a class="btn btn-success btn-sm editInspection" title="Edit Inspection" data-toggle="modal" data-target="#edit-inspection-modal" 
                           data-id="{{ $inspection->id }}"data-location="{{ $inspection->location }}" data-start_date="{{ $inspection->start_date }}" data-findings="{{ $inspection->findings }}"
                           data-pictures="{{ $inspection->pictures }}" data-pca="{{ $inspection->pca }}" data-accountibility="{{ $inspection->accountibility }}"
                           data-status="{{ $inspection->status }}" data-closing_date="{{ $inspection->closing_date }}"
                           ><i class="fa fa-list" aria-hidden="true"></i> Edit</a>
+                        @endif
                       </td>
                 </tr>
                 @empty

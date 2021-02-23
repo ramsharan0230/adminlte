@@ -150,13 +150,20 @@ class HygieneController extends Controller
             'comments'=> 'required',
             'inspection_id'=> 'required|integer'
          ]);
-        
+
         $data = $request->all();
         $data['user_id'] = Auth::id();
         $data['inspection_id'] = $request->inspection_id;
 
         $review = Review::create($data);
-        Inspection::where('id', $request->inspection_id)->update(['approvedBy_siteman'=>0]);
+        $role = Auth::user()->role_id;
+
+        if($role==1){
+            Inspection::where('id', $request->inspection_id)->update(['approvedBy_hygiene'=>0]);
+        }else{
+            Inspection::where('id', $request->inspection_id)->update(['approvedBy_siteman'=>0]);
+        }
+
         if($review)
             return redirect()->route('hygiene')->with('success',"Review created Successfully");
         else
