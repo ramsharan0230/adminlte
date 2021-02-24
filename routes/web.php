@@ -20,14 +20,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/register', 'PagesController@register')->name('register');
-Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
-Route::get('/inspects', 'PagesController@inspects')->name('inspects');
-Route::get('/inspects/add', 'PagesController@addInspection')->name('inspects.add');
-Route::get('/inspects/list', 'PagesController@inspect1')->name('inspects.list');
-Route::get('/user-temp-dashboard/{id}', 'PagesController@tempDashboard')->name('user-temp-dashboard');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/dashboard', 'PagesController@dashboard')->name('dashboard');
+    Route::get('/inspects', 'PagesController@inspects')->name('inspects');
+    Route::get('/inspects/add', 'PagesController@addInspection')->name('inspects.add');
+    Route::get('/inspects/list', 'PagesController@inspect1')->name('inspects.list');
+    Route::get('/user-temp-dashboard/{id}', 'PagesController@tempDashboard')->name('user-temp-dashboard');
+    Route::get('/home', 'HomeController@index')->name('home');
+});
 
 Route::get('/forgot-password', function(){
     return "hlsdf";
 })->name('forgot-password');
 
-Route::get('/home', 'HomeController@index')->name('home');

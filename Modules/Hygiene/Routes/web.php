@@ -21,4 +21,8 @@ Route::prefix('hygiene')->middleware('hygiene')->group(function() {
     Route::post('/inspection/review', 'HygieneController@saveReview')->name('hygiene.inspection.review');
     Route::post('/inspection/update/status', 'HygieneController@updateStatus')->name('inspection.update.status');
     
+    //reporting...
+    Route::get('/inspection-submitted-pdf', 'HygieneController@inspectionSubmittedPdf')->name('hygiene.inspection.submitted.pdf');
+    Route::get('/inspection-submitted-excel', 'HygieneController@inspectionSubmittedExcel')->name('hygiene.inspection.submitted.excel');
+
 });
