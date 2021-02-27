@@ -24,5 +24,7 @@ Route::prefix('hygiene')->middleware('hygiene')->group(function() {
     //reporting...
     Route::get('/inspection-submitted-pdf', 'HygieneController@inspectionSubmittedPdf')->name('hygiene.inspection.submitted.pdf');
     Route::get('/inspection-submitted-excel', 'HygieneController@inspectionSubmittedExcel')->name('hygiene.inspection.submitted.excel');
+    Route::get('/inspection-unsubmitted-pdf', 'HygieneController@inspectionUnSubmittedPdf')->name('hygiene.inspection.unsubmitted.pdf');
+    Route::get('/inspection-unsubmitted-excel', 'HygieneController@inspectionUnSubmittedExcel')->name('hygiene.inspection.unsubmitted.excel');
 
 });

@@ -10,6 +10,7 @@ use Modules\Review\Entities\Review;
 use Modules\Branch\Entities\Branch;
 use Modules\Inspection\Entities\Inspection;
 use Modules\Hygiene\Exports\InspectionsExport;
+use Modules\Hygiene\Exports\InspectionsUnSubmittedExport;
 use Modules\Hygiene\Imports\InspectionsImport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -205,4 +206,19 @@ class HygieneController extends Controller
     public function inspectionSubmittedExcel(){
         return Excel::download(new InspectionsExport, 'submitted-inspections.xlsx');
     }
+
+    public function inspectionUnSubmittedPdf(){
+        $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get();
+        $pdf = PDF::loadView('hygiene::reports.unsubmitted-pdf', ['inspections' => $inspections]);
+
+        return $pdf->stream('inspection-unsubmitted.pdf');
+    }
+
+    public function inspectionUnSubmittedExcel(){
+        return Excel::download(new InspectionsUnSubmittedExport, 'unsubmitted-inspections.xlsx');
+
+    }
+
+    
+    
 }

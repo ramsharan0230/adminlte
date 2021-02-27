@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 
 use Auth;
   
-class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
+class InspectionsUnSubmittedExport implements ShouldAutoSize, WithHeadings, FromArray
 {
     // use Exportable;
     /**
@@ -32,7 +32,7 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
 
     public function array(): array
 	{
-        $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
+        $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
         
 
         $data=[];
