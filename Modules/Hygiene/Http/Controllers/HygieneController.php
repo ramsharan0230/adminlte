@@ -198,7 +198,8 @@ class HygieneController extends Controller
 
     public function inspectionSubmittedPdf(){
         $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get();
-        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections]);
+        $title = 'Submitted';
+        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title]);
 
         return $pdf->stream('inspection-submitted.pdf');
     }
@@ -209,7 +210,8 @@ class HygieneController extends Controller
 
     public function inspectionUnSubmittedPdf(){
         $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get();
-        $pdf = PDF::loadView('hygiene::reports.unsubmitted-pdf', ['inspections' => $inspections]);
+        $title = 'Unsubmitted';
+        $pdf = PDF::loadView('hygiene::reports.unsubmitted-pdf', ['inspections' => $inspections, 'title' => $title,]);
 
         return $pdf->stream('inspection-unsubmitted.pdf');
     }
