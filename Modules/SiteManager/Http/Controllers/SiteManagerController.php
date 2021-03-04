@@ -8,8 +8,11 @@ use Illuminate\Routing\Controller;
 use Modules\Inspection\Entities\Inspection;
 use Modules\User\Entities\User;
 use Modules\Review\Entities\Review;
+use Modules\Hygiene\Exports\InspectionsExport;
+use Modules\Hygiene\Exports\InspectionsUnSubmittedExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Validator;
-use Auth;
+use Auth, PDF;
 
 class SiteManagerController extends Controller
 {
@@ -186,6 +189,43 @@ class SiteManagerController extends Controller
             return redirect()->back()->with(['success'=>'User Deleted successfully!!!']);
         else
             return redirect()->route('senioroperationmanager.branch.detail', $userFound->branch_id)->with(['error'=>'Something went Wrong!!!']);
+    }
+
+
+    public function inspectionSubmittedPdf(){
+        $inspections = Inspection::where('approvedBy_hygiene', 1)->where('approvedBy_siteman', 1)->where('user_id', Auth::id())->get();
+        $title = 'Submitted';
+
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch->name;
+
+        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title, 'branch'=>$branch]);
+
+        return $pdf->stream('inspection-submitted.pdf');
+    }
+
+    public function inspectionSubmittedExcel(){
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch->name;
+        return Excel::download(new InspectionsUnSubmittedExport($branch), 'submitted-inspections.xlsx');
+    }
+
+    public function inspectionUnSubmittedPdf(){
+        $inspections = Inspection::where('approvedBy_hygiene', 1)->where('approvedBy_siteman', 0)->where('user_id', Auth::id())->get();
+        $title = 'Submitted';
+
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch->name;
+
+        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title, 'branch'=>$branch]);
+
+        return $pdf->stream('inspection-submitted.pdf');
+    }
+
+    public function inspectionUnSubmittedExcel(){
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch->name;
+        return Excel::download(new InspectionsUnSubmittedExport($branch), 'submitted-inspections.xlsx');
     }
     
 }

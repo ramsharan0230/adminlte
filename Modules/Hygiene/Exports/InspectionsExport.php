@@ -32,8 +32,11 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
 
     public function array(): array
 	{
-        $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
+        if(\Auth::user()->role->slug =='site-manager')
+            $inspections = Inspection::where('approvedBy_hygiene', 1)->where('approvedBy_siteman', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
         
+        if(\Auth::user()->role->slug =='hygiene')
+            $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
 
         $data=[];
         $value=[];

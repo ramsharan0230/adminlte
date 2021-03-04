@@ -5,24 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Submitted Inspections</title>
+    <style>
+        table, th, td{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        .body-block{
+            display:flex;
+            margin-bottom: 50px
+        }
+        .thumbnail{
+            padding: 2px;
+            margin-right:-2px;
+            border: 2px solid black;
+        }
+        
+        .right{
+            float:right;
+            margin-bottom: 10px;
+            width:50%;
+        }
+
+        .left{
+            float:left;
+            margin-bottom: 10px;
+            width:50%;
+        }
+        .container{
+            max-width: 1000px; margin:0 auto; background: #f8f8ff; border:1px solid #e7e7ff; padding: 0px 15px 15px 15px; font-size: 16px; font-family: arial;
+        }
+    </style>
 </head>
 <body>
-    <div class="header-block">
-        <h3 style="text-align: center">Inspection List</h3>
-    </div>
-    <div class="nav mobilenav">
+    <div class="container" style="">
 
-        <div class="links">
-          <a href="/institutions/">Institutioner</a>
-          <a href="/leaders/">Ledere</a>
-        </div>
-      
-      <div class="header-title">Institution institution 1</div>
-      
-      <div class="logout"><a class="button-dark" href="/user/logout">Log ud</a></div>
-      
-      </div>
-    <table class="table">
+    <div class="header-block">
+        <h3 style="text-align: center">Inspection List({{ $title }})</h3>
+    </div>
+
+    <section>
+        <table style="width: 100%; border-bottom: 3px solid #5757e7; margin-bottom: 10px">
+            <tr >
+                <td>
+                    <span alt="" style="width: 120px; height: 70px; text-align: left; font-weight:bold">Branch: {{ @$branch }} </span>
+                </td>
+                <td style="text-align: right; font-size: 20px;">
+                    <span alt="" style="width: 120px; height: 70px; text-align: left; font-weight:bold">Date: {{ date('Y-m-d') }} </span>
+                </td>
+            </tr>
+        </table>
+    </section>
+    <table style="width: 100%;">
         <thead>
           <tr>
             <th>SN.</th>
@@ -45,7 +78,7 @@
                     <td>{{ $inspection->findings }}</td>
                     <td>
                         @forelse ($inspection->pictures as $item)
-                            {{ $item->name }}
+                            <img class="thumbnail" src="{{ public_path('images/inspection_file/pictures').'/'.$item->name }}" width="100px" height="100px" alt=""><br>
                         @empty
                             <p>No picture found!</p>
                         @endforelse
@@ -63,5 +96,7 @@
           
         </tbody>
       </table>
-</body>
+    </div>
+    
+    </body>
 </html>

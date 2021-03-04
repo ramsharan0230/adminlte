@@ -44,18 +44,18 @@
     </div>
 
     <section>
-        <table style="width: 100%; border-bottom: 5px solid #5757e7;">
-            <tr>
+        <table style="width: 100%; border-bottom: 3px solid #5757e7; margin-bottom: 10px">
+            <tr >
                 <td>
-                    <span alt="" style="width: 120px; height: 70px; text-align: left;">One football </span>
+                    <span alt="" style="width: 120px; height: 70px; text-align: left; font-weight:bold">Branch: {{ @$branch }} </span>
                 </td>
-                <td style="text-align: right; font-size: 20px; text-transform: uppercase;">
-                    <h2 style="font-weight: 900; color:#5757e7;">Cost Estimation</h2>
+                <td style="text-align: right; font-size: 20px;">
+                    <span alt="" style="width: 120px; height: 70px; text-align: left; font-weight:bold">Date: {{ date('Y-m-d') }} </span>
                 </td>
             </tr>
         </table>
     </section>
-    <table>
+    <table style="width: 100%;">
         <thead>
           <tr>
             <th>SN.</th>

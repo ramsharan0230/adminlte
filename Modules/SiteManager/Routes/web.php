@@ -24,4 +24,10 @@ Route::prefix('sitemanager')->middleware(['siteManger'])->group(function() {
     Route::get('/user/disapprove/{id}', 'SiteManagerController@disapproveUser')->name('sitemanager.user.disapprove');
     Route::get('/user/normalize/{id}', 'SiteManagerController@normalizeUser')->name('sitemanager.user.normalize');
     Route::get('/user/delete/{id}', 'SiteManagerController@deleteUser')->name('sitemanager.user.delete');
+
+    //reports
+    Route::get('/inspection/submitted/pdf', 'SiteManagerController@inspectionSubmittedPdf')->name('sitemanager.inspection.submitted.pdf');
+    Route::get('/inspection/submitted/excel', 'SiteManagerController@inspectionSubmittedExcel')->name('sitemanager.inspection.submitted.excel');
+    Route::get('/inspection/unsubmitted/pdf', 'SiteManagerController@inspectionUnSubmittedPdf')->name('sitemanager.inspection.unsubmitted.pdf');
+    Route::get('/inspection/unsubmitted/excel', 'SiteManagerController@inspectionUnSubmittedExcel')->name('sitemanager.inspection.unsubmitted.excel');
 });

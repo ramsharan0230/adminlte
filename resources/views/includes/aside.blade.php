@@ -96,6 +96,11 @@
               @if(\Auth::user()->role->slug =='hygiene')
                 @include('includes.hygiene.reports.submitted.all')
               @endif
+
+              @if(\Auth::user()->role->slug =='site-manager')
+                @include('includes.hygiene.reports.submitted.all')
+              @endif
+
             </ul>
           </li>
 
@@ -109,6 +114,9 @@
             </a>
             <ul class="nav nav-treeview">
               @if(\Auth::user()->role->slug =='hygiene')
+                @include('includes.hygiene.reports.unsubmitted.all')
+              @endif
+              @if(\Auth::user()->role->slug =='site-manager')
                 @include('includes.hygiene.reports.unsubmitted.all')
               @endif
             </ul>

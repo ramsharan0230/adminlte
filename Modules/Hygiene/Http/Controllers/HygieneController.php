@@ -197,9 +197,10 @@ class HygieneController extends Controller
 
 
     public function inspectionSubmittedPdf(){
+        $branch = $this->branch();
         $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get();
         $title = 'Submitted';
-        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title]);
+        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title, 'branch'=>$branch->name]);
 
         return $pdf->stream('inspection-submitted.pdf');
     }
@@ -209,16 +210,17 @@ class HygieneController extends Controller
     }
 
     public function inspectionUnSubmittedPdf(){
+        $branch = $this->branch();
         $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get();
         $title = 'Unsubmitted';
-        $pdf = PDF::loadView('hygiene::reports.unsubmitted-pdf', ['inspections' => $inspections, 'title' => $title,]);
+        $pdf = PDF::loadView('hygiene::reports.unsubmitted-pdf', ['inspections' => $inspections, 'title' => $title, 'branch'=>$branch->name]);
 
         return $pdf->stream('inspection-unsubmitted.pdf');
     }
 
     public function inspectionUnSubmittedExcel(){
-        return Excel::download(new InspectionsUnSubmittedExport, 'unsubmitted-inspections.xlsx');
-
+        $branch = $this->branch();
+        return Excel::download(new InspectionsUnSubmittedExport($branch->name), 'unsubmitted-inspections.xlsx');
     }
 
     

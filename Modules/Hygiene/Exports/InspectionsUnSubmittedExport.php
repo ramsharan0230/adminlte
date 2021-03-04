@@ -12,6 +12,10 @@ use Auth;
   
 class InspectionsUnSubmittedExport implements ShouldAutoSize, WithHeadings, FromArray
 {
+    private $branch;
+    function __construct($branch) {
+        $this->branch = $branch;
+    }
     // use Exportable;
     /**
     * @return \Illuminate\Support\Collection
@@ -34,7 +38,6 @@ class InspectionsUnSubmittedExport implements ShouldAutoSize, WithHeadings, From
 	{
         $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
         
-
         $data=[];
         $value=[];
         $i=1;
