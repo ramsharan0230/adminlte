@@ -31,7 +31,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Inspection Lists <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ $branch->name }}</button></h3>
+              <h3 class="card-title">Inspection Lists <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ \Auth::user()->branch->name }}</button></h3>
               <a href="{{ route('inspection.create') }}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i>  Add</a>
             </div>
             <!-- /.card-header -->

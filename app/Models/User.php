@@ -43,6 +43,11 @@ class User extends Authenticatable
         Auth::logout();
         return back()->with(['message'=>$status=="normal"?"Sorry! You are not approved yet.":"Sorry! You are suspended."]);
     }
+
+    public function branch(){
+        return $this->belongsTo('Modules\Branch\Entities\Branch');
+    }
+
     public static function CheckUserStatus(){
         if(auth()->user()->current_status =="normal" || auth()->user()->current_status =="suspended")
         {
