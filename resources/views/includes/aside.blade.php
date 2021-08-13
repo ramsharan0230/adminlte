@@ -84,45 +84,19 @@
           @endif
           
           <li class="nav-header"><strong>Reports</strong> </li>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>
-                Submitted
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @if(\Auth::user()->role->slug =='hygiene')
-                @include('includes.hygiene.reports.submitted.all')
-              @endif
-
-              @if(\Auth::user()->role->slug =='site-manager')
-                @include('includes.hygiene.reports.submitted.all')
-              @endif
-
-            </ul>
+          <li class="nav-item">
+              <a href="{{ route('inspection.report.pdf', Auth::user()->branch->id) }}" class="nav-link" target="_blank">
+                <i class="far fa-circle nav-icon"></i>
+                <p>PDF</p>
+              </a>
           </li>
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Unsubmitteds
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              @if(\Auth::user()->role->slug =='hygiene')
-                @include('includes.hygiene.reports.unsubmitted.all')
-              @endif
-              @if(\Auth::user()->role->slug =='site-manager')
-                @include('includes.hygiene.reports.unsubmitted.all')
-              @endif
-            </ul>
+          <li class="nav-item">
+              <a href="{{ route('inspection.report.excel', Auth::user()->branch->id) }}" class="nav-link" target="_blank">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Excel</p>
+              </a>
           </li>
-          
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
