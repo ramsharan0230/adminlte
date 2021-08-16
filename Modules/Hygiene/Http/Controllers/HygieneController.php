@@ -195,20 +195,6 @@ class HygieneController extends Controller
             return redirect()->back()->withErrors(['msg'=>"Sorry! Something went wrong"]);
     }
 
-
-    public function inspectionSubmittedPdf(){
-        $branch = $this->branch();
-        $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get();
-        $title = 'Submitted';
-        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'title' => $title, 'branch'=>$branch->name]);
-
-        return $pdf->stream('inspection-submitted.pdf');
-    }
-
-    public function inspectionSubmittedExcel(){
-        return Excel::download(new InspectionsExport, 'submitted-inspections.xlsx');
-    }
-
     public function inspectionUnSubmittedPdf(){
         $branch = $this->branch();
         $inspections = Inspection::where('approvedBy_hygiene', 0)->where('user_id', Auth::id())->get();

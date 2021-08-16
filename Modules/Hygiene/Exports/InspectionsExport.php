@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithDrawings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 
 use Auth;
   
@@ -16,6 +17,32 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
     /**
     * @return \Illuminate\Support\Collection
     */
+
+    private $start_date;
+    private $end_date;
+    private $branch_id;
+    private $drawing;
+
+    public function __construct(string $start_date, string $end_date, int $branch_id) 
+    {
+        $this->start_date = $start_date;
+        $this->end_date = $end_date;
+        $this->branch_id = $branch_id;
+        $this->drawing = new Drawing();
+
+        // $this->drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+    }
+    
+    // public function drawings()
+    // {
+    //     $drawing = new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+    //     $drawing->setName('Logo');
+    //     $drawing->setPath(public_path('images/inspection_file/pictures').'/'.'photo1.png');
+    //     $drawing->setHeight(120);
+
+    //    return $drawing;
+    // }
+
     public function headings(): array
     {
         return [
@@ -26,18 +53,18 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
             'Proposed Corrective Action',
             'Accountibility',
             'Closing Date',
+            // 'Photo',
             'Status'
         ];
     }
 
     public function array(): array
 	{
-        if(\Auth::user()->role->slug =='site-manager')
-            $inspections = Inspection::where('approvedBy_hygiene', 1)->where('approvedBy_siteman', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
-        
-        if(\Auth::user()->role->slug =='hygiene')
-            $inspections = Inspection::where('approvedBy_hygiene', 1)->where('user_id', Auth::id())->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
+        $inspections = Inspection::where('branch_id', $this->branch_id)->whereBetween('created_at', [$this->start_date, $this->end_date])
+            ->with('pictures')
+            ->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
 
+            
         $data=[];
         $value=[];
         $i=1;
@@ -49,6 +76,12 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
             $value['pca']=$inspection->pca;
             $value['accountibility']=$inspection->accountibility;
             $value['closing_date']=$inspection->closing_date;
+
+            // foreach($inspection->pictures as $key=>$photo){
+            //     // $value['photo'][$key] = $this->drawing->setPath(public_path('images/inspection_file/pictures').'/'.$photo->name);
+            //     $value['photo'][$key] = $photo->name;
+            // }
+
             $value['status']=$inspection->start_date==0?"Close":"Open";
 
             array_push($data, $value);

@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Validator;
 use Auth;
+use PDF;
+
 use Modules\Inspection\Entities\Inspection;
 use Modules\Picture\Entities\Picture;
 use Modules\Review\Entities\Review;
 use Illuminate\Support\Str;
+use Modules\Branch\Entities\Branch;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InspectionController extends Controller
 {
@@ -22,6 +26,11 @@ class InspectionController extends Controller
     {
         $inspections = Inspection::whereStatus(1)->where('user_id', Auth::id())->orderBy('created_at', 'DESC')->get();
         return view('inspection::index', compact('inspections'));
+    }
+
+    public function branch()
+    {
+        return Branch::where('id', Auth::user()->branch_id)->first();
     }
 
     /**
@@ -175,4 +184,38 @@ class InspectionController extends Controller
 
         return redirect()->route('hygiene')->with(['message'=>'Deleted Successfully', 'status'=>$deleteStatus]);
     }
+
+    public function inspectionSubmittedExcel(){
+        return Excel::download(new InspectionsExport, 'submitted-inspections.xlsx');
+    }
+
+    public function inspectionReport($branch_id){
+        // dd($branch_id);
+        return view('inspection::pdf.report', compact('branch_id'));
+    }
+
+    public function inspectionReportPdf(Request $request){
+        $branch = Branch::findOrFail($request->branch_id);
+        $inspections = Inspection::where('branch_id', $request->branch_id)
+            ->whereBetween('created_at', [$request->start_date, $request->end_date])->get();
+
+        $pdf = PDF::loadView('hygiene::reports.submitted-pdf', ['inspections' => $inspections, 'branch'=>$branch->name, 
+        
+        'start_date'=>$request->start_date, 'end_date'=>$request->end_date]);
+
+        return $pdf->stream('inspection-submitted.pdf');
+    }
+
+    public function inspectionReportExcel($branch_id){
+        return view('inspection::excel.report', compact('branch_id'));
+    }
+
+    public function inspectionReportExcelStream(Request $request){
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+        $branch_id = $request->branch_id;
+
+        return Excel::download(new \Modules\Hygiene\Exports\InspectionsExport($start_date, $end_date, $branch_id), 'submitted-inspections.xlsx');
+    }
+
 }
