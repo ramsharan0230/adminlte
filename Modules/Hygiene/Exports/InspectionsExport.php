@@ -64,6 +64,7 @@ class InspectionsExport implements ShouldAutoSize, WithHeadings, FromArray
             ->with('pictures')
             ->get(['id','location','start_date','findings','pca','accountibility', 'closing_date','status']);
 
+            
         $data=[];
         $value=[];
         $i=1;
