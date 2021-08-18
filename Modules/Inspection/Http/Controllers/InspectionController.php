@@ -67,6 +67,7 @@ class InspectionController extends Controller
         $data = $request->all();
         $data['status'] = $request->publish?1:0;
         $data['user_id'] = Auth::id();
+        $data['branch_id'] = Auth::user()->branch_id;
 
         $inspection = Inspection::create($data);
         if($inspection)
