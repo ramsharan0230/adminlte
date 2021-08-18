@@ -139,19 +139,19 @@
                     </div>
                   </div>
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-12">
                         <div class="form-group">
                             <label for="datepicker1">Date</label>
                             <div class='input-group date' id='datetimepicker1' >
-                                <input type="text" class="datepicker1" name="start_date" autocomplete="off">
+                                <input type="text" class="datepicker1 form-control" name="start_date" autocomplete="off">
                             </div>
                         </div> 
                       </div>
-                      <div class="col-sm-6">
+                      <div class="col-sm-12">
                         <div class="form-group">
                             <label for="datepicker">Closing Date</label>
                             <div class='input-group date' id='datetimepicker1'>
-                                <input type="text" class="datepicker" name="closing_date" autocomplete="off">
+                                <input type="text" id="datepicker" class="datepicker form-control" name="closing_date" autocomplete="off">
                             </div>
                         </div>
                       </div>
