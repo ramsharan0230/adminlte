@@ -46,8 +46,10 @@ class HygieneController extends Controller
         $branch = $this->branch();
         $prepends = Inspection::whereStatus(1)->select(['findings', 'pca', 'location', 'accountibility'])
             ->groupBy(['findings', 'pca', 'location', 'accountibility'])
+            ->orderBy('created_at', 'DESC')
             ->get();
-        $inspections = $this->inspection->where('user_id', Auth::id())->get();
+
+        $inspections = $this->inspection->where('branch_id', Auth::user()->branch_id)->orderBy('created_at', 'DESC')->get();
         return view('hygiene::index', compact('inspections', 'prepends', 'branch'));
     }
 
