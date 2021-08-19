@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Auth, Session;
 
 class HomeController extends Controller
 {
@@ -24,9 +24,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // dd(Auth::user()->role->slug);
         if (!Auth::check()) {
             return redirect()->route('login');
+        }
+
+        if(Auth::user()->current_status == "normal"){
+            Auth::logout();
+            Session::flush();
+            return redirect()->back()->with('message', 'Contact your admin for your role upgrading!')
+            ->withInput(Auth::user()->email);
         }
 
         if (Auth::user()->role->slug == 'hygiene') {

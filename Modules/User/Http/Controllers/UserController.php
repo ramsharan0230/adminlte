@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Modules\User\Entities\User;
 use Illuminate\Support\Facades\Redirect;
 use Validator;
-use Auth;
+use Auth, Session;
 
 class UserController extends Controller
 {
@@ -110,6 +110,7 @@ class UserController extends Controller
 
     public function logout(){
         Auth::logout();
+        Session::flush();
 	    return Redirect::to('/');
     }
 }
