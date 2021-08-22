@@ -22,6 +22,7 @@ Route::prefix('inspection')->middleware('auth')->group(function() {
     Route::post('/picture/add', 'InspectionController@storePicture');
     Route::get('/picture/slider/{id}', 'InspectionController@getSliderImages');
     Route::get('/review-list/{id}', 'InspectionController@reviewList');
+    Route::get('/find-for-image/{id}', 'InspectionController@findInspection');
     Route::get('/approve/{id}', 'InspectionController@approve')->name('inspection.approve');
     Route::get('/delete/{id}', 'InspectionController@delete')->name('inspection.delete');
 

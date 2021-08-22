@@ -55,13 +55,17 @@ class InspectionController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->upload_ins);
+        
         Validator::make($request->all(), [
             'location'=> 'required|max:199',
             'findings'=> 'required|max:2500',
             'pca'=> 'required|max:2500',
             'accountibility'=> 'required',
             'start_date'=> 'required',
-            'closing_date'=> 'required'
+            'closing_date'=> 'required',
+            "upload_ins"    => "sometimes|array",
+            "upload_ins.*"  => "sometimes|distinct|mimes:jpeg,bmp,png,jpg",
          ]);
         
         $data = $request->all();
@@ -70,8 +74,21 @@ class InspectionController extends Controller
         $data['branch_id'] = Auth::user()->branch_id;
 
         $inspection = Inspection::create($data);
-        if($inspection)
+        if($inspection){
+            // dd($inspection->id);
+            // upload image
+            foreach($request->upload_ins as $picture){
+                $fileName = time().'.'.$picture->extension();  
+                $picture->move(public_path('images/inspection_file/pictures'), $fileName);
+
+                $picture = new Picture();
+                $picture->name = $fileName;
+                $picture->inspection_id = $inspection->id;
+                $picture->save();
+            }
+
             return redirect()->route('hygiene')->with(['success'=>"Inspection created Successfully"]);
+        }
         else
             return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
 
@@ -145,14 +162,27 @@ class InspectionController extends Controller
             'pca'=> 'required|max:2500',
             'accountibility'=> 'required',
             'start_date'=> 'required',
-            'closing_date'=> 'required'
+            'closing_date'=> 'required',
+            "upload_ins"    => "sometimes|array",
+            "upload_ins.*"  => "sometimes|distinct|mimes:jpeg,bmp,png,jpg"
          ]);
-        $data = $request->except(['editInspectionId', '_token']);
+        $data = $request->except(['editInspectionId', '_token', 'upload_ins']);
         $data['status'] = $request->status;
 
         $inspection = Inspection::where('id', $request->editInspectionId)->update($data);
-        if($inspection)
+        if($inspection){
+            foreach($request->upload_ins as $picture){
+                $fileName = time().'.'.$picture->extension();  
+                $picture->move(public_path('images/inspection_file/pictures'), $fileName);
+
+                $picture = new Picture();
+                $picture->name = $fileName;
+                $picture->inspection_id = $request->editInspectionId;
+                $picture->save();
+            }
             return redirect()->route('hygiene')->with(['success'=>"Inspection updated Successfully"]);
+
+        }
         else
             return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
     }
@@ -177,6 +207,11 @@ class InspectionController extends Controller
             return redirect()->route('hygiene')->with(['success'=>"Approved Successfully"]);
         else
             return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
+    }
+
+    public function findInspection($id){
+        $inspection = Inspection::where('id', $id)->with('pictures')->first();
+        return response()->json(['message' => 'Successful', 'status' => 200, 'payload'=> $inspection]);
     }
 
     public function delete($id){

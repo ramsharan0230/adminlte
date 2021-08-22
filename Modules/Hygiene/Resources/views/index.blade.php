@@ -190,8 +190,24 @@
         let tanggal = moment(date, 'YYYY-MM-DD HH:mm:ss').format('DD MMMM, YYYY');
         return tanggal;
       }
-
       $('.editInspection').click(function(){
+        var id = $(this).data('id')
+        $.ajax({
+            type: 'GET',
+            url: '/inspection/find-for-image/'+$(this).data('id'),
+            success: function(data){
+              if(data.payload.pictures.length>0){
+                $.each( data.payload.pictures, function( key, value ) {
+                  $(".quote-imgs-thumbs").append('<img src="'+resouce+'" width="200px" /><br><i class="fa fa-trash deleteImage" data-id='+value.id+'></i>')
+                });
+              }else{
+                $(".reviews").append('<p>No Review Found!!</p>')
+              }
+            },
+            error: function(xhr){
+                console.log(xhr.responseText);
+            }
+        });
         $('#inspectionFoundId').val($(this).data('id'))
         $('#location').val($(this).data('location'))
         $('#findings').val($(this).data('findings'))
@@ -206,6 +222,8 @@
         $('#editOnlyStatus').val($(this).data('status'))
       })
       
-      
+      $('.deleteImage').click(function(){
+        console.log('fire')
+      })
     </script>
   @endpush

@@ -1,3 +1,6 @@
+@push('stylesheets')
+  <link rel="stylesheet" href="{{ asset('dist/css/file.css') }}">
+@endpush
 <div class="modal fade" id="edit-inspection-modal" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -138,6 +141,17 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="jumbotron col-sm-12">
+                                    <div class="form-group">
+                                    <label for="upload_imgs" class="button hollow">Select Your Images: </label>
+                                    <input class="show-for-sr" type="file" id="upload_imgs" name="upload_ins[]" multiple/>
+                                    <div class="quote-imgs-thumbs quote-imgs-thumbs--show" id="img_preview" aria-live="polite">
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
         
                         </div>
                         <div class="card-footer">
@@ -148,8 +162,7 @@
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
-                    </div>
-        
+
                 </div>
                 
                 </form>
@@ -159,4 +172,7 @@
       </div>
     </div>
 </div>
+@push('scripts')
+<script src="{{ asset('dist/js/file.js') }}"></script>
+@endpush
     
