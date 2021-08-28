@@ -257,7 +257,7 @@ function takeSnapshot() {
   // some API's (like Azure Custom Vision) need a blob with image data
   getCanvasBlob(canvas).then(function (blob) {
     // do something with the image blob
-    var redirectUrl = 'http://127.0.0.1:8000/inspection'
+    var redirectUrl = 'https://info.aa24inspect.com/hygiene'
     var reader = new FileReader();
     reader.readAsDataURL(blob); 
     reader.onloadend = function() {
