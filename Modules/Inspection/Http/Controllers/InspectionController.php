@@ -77,6 +77,10 @@ class InspectionController extends Controller
         if($inspection){
             // dd($inspection->id);
             // upload image
+            if($request->upload_ins ==null){
+                return redirect()->route('hygiene')->with(['success'=>"Inspection created Successfully"]);
+            }
+
             foreach($request->upload_ins as $picture){
                 $fileName = time().'.'.$picture->extension();  
                 $picture->move(public_path('images/inspection_file/pictures'), $fileName);
@@ -86,8 +90,8 @@ class InspectionController extends Controller
                 $picture->inspection_id = $inspection->id;
                 $picture->save();
             }
-
             return redirect()->route('hygiene')->with(['success'=>"Inspection created Successfully"]);
+
         }
         else
             return redirect()->route('hygiene')->with(['danger'=>"Sorry something went wrong!"]);
@@ -168,9 +172,13 @@ class InspectionController extends Controller
          ]);
         $data = $request->except(['editInspectionId', '_token', 'upload_ins']);
         $data['status'] = $request->status;
-
         $inspection = Inspection::where('id', $request->editInspectionId)->update($data);
         if($inspection){
+
+            if($request->upload_ins ==null){
+                return redirect()->route('hygiene')->with(['success'=>"Inspection updated Successfully"]);
+            }
+
             foreach($request->upload_ins as $picture){
                 $fileName = time().'.'.$picture->extension();  
                 $picture->move(public_path('images/inspection_file/pictures'), $fileName);
