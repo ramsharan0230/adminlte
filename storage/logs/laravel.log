@@ -5842,3 +5842,33 @@ Did you mean one of these?
 #46 {main}
 >>>>>>> 031ac3ba079ce8713998be51c71c185772865a48
 "} 
+[2021-08-29 11:16:22] local.ERROR: Trying to get property 'current_status' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'current_status' of non-object at /home/aa24inspect/info.aa24inspect.com/app/Models/User.php:52)
+[stacktrace]
+#0 /home/aa24inspect/info.aa24inspect.com/app/Models/User.php(52): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', '/home/aa24inspe...', 52, Array)
+#1 /home/aa24inspect/info.aa24inspect.com/app/Http/Middleware/Sitemanger.php(50): App\\Models\\User::CheckUserStatus()
+#2 [internal function]: App\\Http\\Middleware\\Sitemanger->__construct(Object(App\\Models\\User))
+#3 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(870): ReflectionClass->newInstanceArgs(Array)
+#4 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(712): Illuminate\\Container\\Container->build('App\\\\Http\\\\Middle...')
+#5 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(826): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Middle...', Array, true)
+#6 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(651): Illuminate\\Foundation\\Application->resolve('App\\\\Http\\\\Middle...', Array)
+#7 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(811): Illuminate\\Container\\Container->make('App\\\\Http\\\\Middle...', Array)
+#8 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(205): Illuminate\\Foundation\\Application->make('App\\\\Http\\\\Middle...')
+#9 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(179): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\RedirectResponse))
+#10 /home/aa24inspect/info.aa24inspect.com/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\RedirectResponse))
+#11 {main}
+"} 
+[2021-08-29 11:16:22] local.ERROR: Trying to get property 'current_status' of non-object {"exception":"[object] (ErrorException(code: 0): Trying to get property 'current_status' of non-object at /home/aa24inspect/info.aa24inspect.com/app/Models/User.php:52)
+[stacktrace]
+#0 /home/aa24inspect/info.aa24inspect.com/app/Models/User.php(52): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(8, 'Trying to get p...', '/home/aa24inspe...', 52, Array)
+#1 /home/aa24inspect/info.aa24inspect.com/app/Http/Middleware/Sitemanger.php(50): App\\Models\\User::CheckUserStatus()
+#2 [internal function]: App\\Http\\Middleware\\Sitemanger->__construct(Object(App\\Models\\User))
+#3 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(870): ReflectionClass->newInstanceArgs(Array)
+#4 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(712): Illuminate\\Container\\Container->build('App\\\\Http\\\\Middle...')
+#5 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(826): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Middle...', Array, true)
+#6 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Container/Container.php(651): Illuminate\\Foundation\\Application->resolve('App\\\\Http\\\\Middle...', Array)
+#7 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(811): Illuminate\\Container\\Container->make('App\\\\Http\\\\Middle...', Array)
+#8 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(205): Illuminate\\Foundation\\Application->make('App\\\\Http\\\\Middle...')
+#9 /home/aa24inspect/info.aa24inspect.com/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(179): Illuminate\\Foundation\\Http\\Kernel->terminateMiddleware(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\RedirectResponse))
+#10 /home/aa24inspect/info.aa24inspect.com/public/index.php(55): Illuminate\\Foundation\\Http\\Kernel->terminate(Object(Illuminate\\Http\\Request), Object(Illuminate\\Http\\RedirectResponse))
+#11 {main}
+"} 
