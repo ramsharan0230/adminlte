@@ -23,10 +23,18 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @if (Session::has('message'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ Session::get('message') }}</li>
+                </ul>
+            </div>
+        @endif
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All Hygienes</h3>
+              <h3 class="card-title">All Hygienes <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ Auth::user()->branch->name }} </button></h3>
+
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -39,7 +47,7 @@
                   <th>Role</th>
                   <th>Pictures</th>
                   <th>Phone</th>
-                  <th>Status</th>
+                  <th>Current Status</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -51,10 +59,14 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
                     <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
-                    <td>0123456789</td>
-                    <td>{{ $user->status==1?"Active":"Inactive" }}</td>
+                    <td>{{ $user->phone }}</td>
+                    <td>{{ ucfirst($user->current_status) }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm"> Approved</button>
+                      @if($user->current_status=='normal' || $user->current_status=='suspended')
+                        <a href="{{ route('senioroperationmanager.approve.hygiene', $user->id) }}" class="btn btn-success btn-sm"> <i class="fas fa-user-check"></i> Approve</a>
+                      @else
+                        <a href="{{ route('senioroperationmanager.suspend.hygiene', $user->id) }}" class="btn btn-warning btn-sm"> <i class="fas fa-user-times"></i> Suspend</a>
+                      @endif
                         @if(Auth::user()->id == $user->id)
                             <a href="#" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
                         @endif

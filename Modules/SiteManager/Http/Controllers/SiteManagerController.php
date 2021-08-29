@@ -44,7 +44,24 @@ class SiteManagerController extends Controller
                 array_push($inspections, $inspection);
             }
         }
+        $inspections = array_reverse($inspections);
         return view('sitemanager::index', compact('inspections', 'branch'));
+    }
+
+    public function approvedInspections(){
+        $inspections= array();
+        $this->branch = $this->user->checkUserBranch(Auth::user()->branch_id);
+        $branch = $this->branch;
+        // dd($branch);
+        $branch_users = $branch->users()->get();
+        foreach($branch_users as $user){
+            foreach($user->inspections as $inspection){
+                if($inspection->approvedBy_hygiene ==1)
+                    array_push($inspections, $inspection);
+            }
+        }
+        $inspections = array_reverse($inspections);
+        return view('sitemanager::approved-inspections', compact('inspections', 'branch'));
     }
 
     /**

@@ -12,7 +12,14 @@
     <div class="card">
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
-  
+
+        @if ($message = Session::get('message'))
+        <div class="alert alert-warning alert-block">
+          <button type="button" class="close" data-dismiss="alert">×</button>	
+          <strong>{{ $message }}</strong>
+        </div>
+        @endif 
+         
         <form action="{{ route('login') }}" method="POST">
           @csrf
           <div class="input-group mb-3">

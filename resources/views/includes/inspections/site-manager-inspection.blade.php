@@ -14,6 +14,14 @@
         </a>
 
       </li>
+
+      <li class="nav-item">
+        <a href="{{ route('sitemanager.approved-inspections') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>Approved Lists</p>
+        </a>
+
+      </li>
     </ul>
 </li>
 

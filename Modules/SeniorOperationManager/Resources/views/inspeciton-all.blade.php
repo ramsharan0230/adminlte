@@ -28,8 +28,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Inspection Lists <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ Auth::user()->branch->name }} </button></h3>
-
+                <h3 class="card-title">Inspection Lists <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ Auth::user()->branch->name }} </button></h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -52,14 +51,7 @@
                     
                 @forelse($inspections as $key => $inspection)
                 <tr>
-                    <td>{{ $key+1 }} 
-                      @if($inspection->approvedBy_siteman==1)
-                        <br><i class="fa fa-check" style="color:green"></i>
-                        <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#un-approve-modal" data-id="{{ $inspection->id }}"><i class="fa fa-times"></i> UnApprove</button>
-                      @else
-                          <button class="btn btn-primary btn-sm"> Approve</button>
-                      @endif
-                    </td>
+                    <td>{{ $key+1 }}</td>
                     <td>{{ $inspection->location }}</td>
                     <td>{{ $inspection->start_date }}</td>
                     <td>{{ $inspection->findings }}</td>

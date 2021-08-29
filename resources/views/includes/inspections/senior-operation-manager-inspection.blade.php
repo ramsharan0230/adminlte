@@ -10,9 +10,19 @@
       <li class="nav-item">
         <a href="{{ route('senioroperationmanager') }}" class="nav-link">
           <i class="far fa-circle nav-icon"></i>
-          <p>Lists</p>
+          <p>Approved</p>
+        </a>
+
+      </li>
+
+      <li class="nav-item">
+        <a href="{{ route('inspection-all') }}" class="nav-link">
+          <i class="far fa-circle nav-icon"></i>
+          <p>All</p>
         </a>
 
       </li>
     </ul>
   </li>
+
+ 
