@@ -32,8 +32,13 @@ class Inspection extends Model
         return $this->hasMany('Modules\Review\Entities\Review');
     }
 
-    public function seniorOperationManagerInspections(){
-        return $this->where(['status'=>1, 'approvedBy_hygiene'=>1, 'approvedBy_siteman'=>1,'approvedBy_opman'=>1])->get();
+    public function seniorOperationManagerInspections($branch_id){
+        return $this->where(['status'=>1, 'approvedBy_hygiene'=>1, 'approvedBy_siteman'=>1, 'branch_id'=> $branch_id])
+        ->orderBy('created_at', 'desc')->get();
+    }
+
+    public function seniorOperationManagerInspectionsAll($branch_id){
+        return $this->where(['status'=>1])->where('branch_id', $branch_id)->orderBy('created_at', 'desc')->get();
     }
 
     public function hygieneInspections(){

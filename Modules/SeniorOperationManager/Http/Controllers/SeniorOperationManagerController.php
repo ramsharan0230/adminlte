@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\User\Entities\User;
 use Modules\Inspection\Entities\Inspection;
 use Modules\Role\Entities\Role;
+use Auth;
 
 class SeniorOperationManagerController extends Controller
 {
@@ -16,6 +17,9 @@ class SeniorOperationManagerController extends Controller
     private $siteManagers;
     private $hygienes;
     private $inspections;
+    private $inspectionAll;
+    private $user;
+    private $model;
 
     public function __construct(User $user, Inspection $inspection)
     {
@@ -25,9 +29,8 @@ class SeniorOperationManagerController extends Controller
         $this->operationManagers = $user->operationManagers();
         $this->siteManagers = $user->siteManagers();
         $this->hygienes = $user->hygienes();
-
-        //inspection
-        $this->inspections = $inspection->seniorOperationManagerInspections();
+        $this->model = $inspection;
+        $this->user = $user;
     }
     /**
      * Display a listing of the resource.
@@ -35,8 +38,16 @@ class SeniorOperationManagerController extends Controller
      */
     public function index()
     {
-        $inspections = $this->inspections;
+        //inspection
+        $inspections = $this->model->seniorOperationManagerInspections(Auth::user()->branch_id);
+
         return view('senioroperationmanager::index', compact('inspections'));
+    }
+
+    public function branchAllInspections()
+    {
+        $inspections = $this->model->seniorOperationManagerInspectionsAll(Auth::user()->branch_id);
+        return view('senioroperationmanager::inspeciton-all', compact('inspections'));
     }
 
     /**
@@ -53,17 +64,6 @@ class SeniorOperationManagerController extends Controller
         $roles = Role::where('status', 1)->get();
         return response()->json(['data'=>$roles, 'status'=>200]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
     /**
      * Show the specified resource.
      * @param int $id
@@ -84,27 +84,6 @@ class SeniorOperationManagerController extends Controller
         return view('senioroperationmanager::edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function seniorOperationManagers(){
         $seniorOperationManagers = $this->seniorOperationManagers;
         return view('senioroperationmanager::senior_operation_managers', compact('seniorOperationManagers'));
@@ -116,13 +95,36 @@ class SeniorOperationManagerController extends Controller
     }
 
     public function siteManagers(){
-        $siteManagers = $this->siteManagers;
-        return view('senioroperationmanager::operation-manager', compact('siteManagers'));
+        $siteManagers = $this->siteManagers->where('branch_id', Auth::user()->branch_id);
+        return view('senioroperationmanager::site-managers', compact('siteManagers'));
     }
 
     public function hygienes(){
-        $hygienes = $this->hygienes;
-        return view('senioroperationmanager::operation-manager', compact('hygienes'));
+        $role_id = [2,3,4];
+        $hygienes = $this->user->whereNotIn('role_id', $role_id)->where('branch_id', Auth::user()->branch_id)->get();
+        return view('senioroperationmanager::hygienes', compact('hygienes'));
+    }
+
+    public function approveHygiene($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'approved',
+                'role_id' => 1,
+                'status'=>1
+            ]
+        );
+        return redirect()->back()->with('message', 'User Updated Successfully!');
+    }
+
+    public function suspendHygiene($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'suspended',
+                'role_id' => 1,
+                'status'=>0
+            ]
+        );
+        return redirect()->back()->with('message', 'User Suspended Successfully!');
     }
     
 }

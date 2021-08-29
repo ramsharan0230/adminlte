@@ -41,7 +41,7 @@ class User extends Authenticatable
         $status = Auth::user()->current_status;
         Session::flush();
         Auth::logout();
-        return back()->with(['message'=>$status=="normal"?"Sorry! You are not approved yet.":"Sorry! You are suspended."]);
+        return back()->with(['message'=>$status=="normal"?"Sorry! You are not approved yet.":"Sorry! You are suspended. Contact your admin"]);
     }
 
     public function branch(){

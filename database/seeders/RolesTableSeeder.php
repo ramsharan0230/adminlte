@@ -26,5 +26,8 @@ class RolesTableSeeder extends Seeder
         Role::create([
             'name' => 'Senior Operation Manager'
         ]);
+        Role::create([
+            'name' => 'Normal'
+        ]);
     }
 }
