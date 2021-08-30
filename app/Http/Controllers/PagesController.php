@@ -5,18 +5,25 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Modules\Branch\Entities\Branch;
 use Modules\User\Entities\User;
+use Modules\Role\Entities\Role;
 
 class PagesController extends Controller
 {
     private $branch;
-    public function __construct(Branch $branch, User $user){
+    private $role;
+    private $user;
+    public function __construct(Branch $branch, User $user, Role $role){
         $this->branch = $branch;
         $this->user = $user;
+        $this->role = $role;
     }   
 
     public function register(){
         $branches = $this->branch->status()->all();
-        return view('pages.register', compact('branches'));
+        $roles = $this->role->where('slug', '!=', 'operation-manager')
+            ->where('slug', '!=', 'senior-operation-manager')
+            ->where('status', 1)->get();
+        return view('pages.register', compact('branches', 'roles'));
     }
 
     public function tempDashboard($id){

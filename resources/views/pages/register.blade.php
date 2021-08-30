@@ -40,6 +40,22 @@
           </div>
 
           <div class="input-group mb-3">
+            <select class="form-control" id="role_id" name="role_id">
+              <option value="" disabled selected>Select Role...</option>
+              @forelse ($roles as $role)
+                <option value="{{ $role->id }}">{{ $role->name }}</option>
+              @empty
+                  <option value="">No Branch Found!!</option>
+              @endforelse
+            </select>
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-home"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="Full name" name="fullname" value="{{ old('fullname') }}">
             <div class="input-group-append">
               <div class="input-group-text">

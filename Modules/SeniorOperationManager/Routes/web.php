@@ -24,4 +24,16 @@ Route::prefix('senioroperationmanager')->middleware('seniorOperationManager')->g
     Route::get('/approve/{id}/hygiene', 'SeniorOperationManagerController@approveHygiene')->name('senioroperationmanager.approve.hygiene');
     //suspend hygienes
     Route::get('/suspend/{id}/hygiene', 'SeniorOperationManagerController@suspendHygiene')->name('senioroperationmanager.suspend.hygiene');
+    //approve site-manager
+    Route::get('/approve/{id}/site-manager', 'SeniorOperationManagerController@approveSiteManager')->name('senioroperationmanager.approve.site-manager');
+    //suspend site-manager
+    Route::get('/suspend/{id}/site-manager', 'SeniorOperationManagerController@suspendSiteManager')->name('senioroperationmanager.suspend.site-manager');
+    
+    //approve senior operation manager
+    Route::get('/approve/{id}/senior-operation-manager', 'SeniorOperationManagerController@approveSeniorOperationManager')->name('senioroperationmanager.approve.senior-operation-manager');
+    //suspend senior operation manager
+    Route::get('/suspend/{id}/senior-operation-manager', 'SeniorOperationManagerController@suspendSeniorOperationManager')->name('senioroperationmanager.suspend.senior-operation-manager');
+    
+    
+
 });
