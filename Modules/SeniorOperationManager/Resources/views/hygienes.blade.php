@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title','Inspections')
+@section('title','All Hygienes')
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 @endpush
@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Inspections</h1>
+            <h1>All Hygienes</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Inspections</li>
+              <li class="breadcrumb-item active">All Hygienes</li>
             </ol>
           </div>
         </div>
@@ -45,7 +45,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Current Status</th>
                   <th>Actions</th>
@@ -58,7 +57,6 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
                     <td>{{ $user->phone }}</td>
                     <td>{{ ucfirst($user->current_status) }}</td>
                     <td>
@@ -80,7 +78,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Actions</th>

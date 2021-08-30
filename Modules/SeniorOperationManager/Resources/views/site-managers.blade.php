@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title','Inspections')
+@section('title','All Sitemanagers')
 @push('stylesheets')
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
 @endpush
@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Inspections</h1>
+            <h1>All Sitemanagers</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-              <li class="breadcrumb-item active">Inspections</li>
+              <li class="breadcrumb-item active">All Sitemanagers</li>
             </ol>
           </div>
         </div>
@@ -23,10 +23,18 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @if (Session::has('message'))
+            <div class="alert alert-success">
+                <ul>
+                    <li>{{ Session::get('message') }}</li>
+                </ul>
+            </div>
+        @endif
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">All Sitemanagers</h3>
+              <h3 class="card-title">All Sitemanagers <button class="btn btn-primary btn-sm ml-3"><i class="fa fa-home"></i> {{ Auth::user()->branch->name }} </button></h3>
+
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -37,7 +45,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -50,11 +57,14 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->role->name }}</td>
-                    <td><img src="{{ asset('dist/img/avatar5.png') }}" height="50px" alt="" srcset=""></td>
-                    <td>0123456789</td>
-                    <td>{{ $user->status==1?"Active":"Inactive" }}</td>
+                    <td>{{ $user->phone }}</td>
+                    <td>{{ ucfirst($user->current_status) }}</td>
                     <td>
-                        <button class="btn btn-success btn-sm"> Approved</button>
+                      @if($user->current_status=='normal' || $user->current_status=='suspended')
+                        <a href="{{ route('senioroperationmanager.approve.site-manager', $user->id) }}" class="btn btn-success btn-sm"> <i class="fas fa-user-check"></i> Approve</a>
+                      @else
+                        <a href="{{ route('senioroperationmanager.suspend.site-manager', $user->id) }}" class="btn btn-warning btn-sm"> <i class="fas fa-user-times"></i> Suspend</a>
+                      @endif
                         @if(Auth::user()->id == $user->id)
                             <a href="#" class="btn btn-primary btn-sm "><i class="fa fa-edit"></i> Edit</a>
                         @endif
@@ -68,7 +78,6 @@
                   <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Pictures</th>
                   <th>Phone</th>
                   <th>Status</th>
                   <th>Actions</th>

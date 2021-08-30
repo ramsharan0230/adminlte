@@ -40,6 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'role_id' => 'required|integer',
             'branch_id' =>'required|integer',
             'fullname' => 'required|min:3|max:100',
             'email' => 'email|required',
@@ -58,7 +59,7 @@ class UserController extends Controller
         $data = $request->all();
         $data['name'] = $request->fullname;
         $data['password'] = Hash::make($request->password);
-        $data['role_id'] = 5;
+        $data['status'] = 0;
 
         $user = User::create($data);
         if($user)

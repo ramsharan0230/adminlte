@@ -127,4 +127,56 @@ class SeniorOperationManagerController extends Controller
         return redirect()->back()->with('message', 'User Suspended Successfully!');
     }
     
+    public function approveSiteManager($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'approved',
+                'status'=>1
+            ]
+        );
+        return redirect()->back()->with('message', 'User Updated Successfully!');
+    }
+
+    public function suspendSiteManager($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'suspended',
+                'role_id' => 2,
+                'status'=>0
+            ]
+        );
+        return redirect()->back()->with('message', 'User Suspended Successfully!');
+    }
+
+    public function suspendSeniorOperationManager($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'suspended',
+                'role_id' => 4,
+                'status'=>0
+            ]
+        );
+
+        if(Auth::id() == $id){
+            Auth::logout();
+        }
+
+        return redirect()->back()->with('message', 'User Suspended Successfully!');
+    }
+
+    public function approveSeniorOperationManager($id){
+        $hygienes = $this->user->where('id', $id)->update(
+            [
+                'current_status'=>'approved',
+                'status'=>1
+            ]
+        );
+
+        if(Auth::id() == $id){
+            Auth::logout();
+        }
+
+        return redirect()->back()->with('message', 'User Suspended Successfully!');
+    }
+    
 }
